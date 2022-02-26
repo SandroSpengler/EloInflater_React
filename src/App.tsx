@@ -2,11 +2,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme, Theme } from "@mui/material/styles";
+import { blue, blueGrey, green, purple } from "@mui/material/colors";
 
 import "./App.css";
 
 import Overview from "./Pages/Overview";
-import { blue, green, purple } from "@mui/material/colors";
+import Header from "./Components/Layout/Header";
 
 const theme: Theme = createTheme({
   palette: {
@@ -14,7 +15,8 @@ const theme: Theme = createTheme({
     // primary: {
     //   main: "#25416e",
     // },
-    primary: blue,
+    primary: blueGrey,
+    secondary: blue,
   },
 });
 
@@ -23,6 +25,10 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
+        <div className="headerWrapper">
+          <Header />
+        </div>
+
         <main>
           <Routes>
             <Route path="*" element={<Overview />}></Route>
