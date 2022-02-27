@@ -13,7 +13,7 @@ const Header = (props: any) => {
             style={{ height: 60, display: "flex", justifyContent: "space-between" }}
           >
             <div>
-              <Link href="/home" underline="hover" style={{ color: "white", margin: 5 }}>
+              <Link href="/overview" underline="hover" style={{ color: "white", margin: 5 }}>
                 Home
               </Link>
               {/* <Link href="/frontend" underline="hover" style={{ color: "white", margin: 5 }}>

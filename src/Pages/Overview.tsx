@@ -1,7 +1,24 @@
 // import { Card, CardContent, Grid, Paper, Typography } from "@mui/material";
-import { Button } from "@mui/material";
+import { Button, dividerClasses } from "@mui/material";
+import { useState } from "react";
+
+import { getUsers } from "../Services/HttpService";
 
 const Overview = (props: any) => {
+  const [counter, setCounter] = useState(0);
+  const [showUser, setShowUser] = useState(false);
+
+  const showUserComponent = () => {
+    let users = getUsers();
+
+    return (
+      <div>
+        <div>Name {users.name}</div>
+        <div>Age {users.age}</div>
+      </div>
+    );
+  };
+
   return (
     <div>
       <div>
@@ -10,10 +27,20 @@ const Overview = (props: any) => {
           variant="contained"
           // variant="outlined"
           color="primary"
-          onClick={() => console.log("Clicked!")}
+          onClick={() => setCounter(counter + 1)}
         >
-          Click Me!
+          {counter} + 2
         </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            setShowUser(!showUser);
+          }}
+        >
+          Show
+        </Button>
+        {showUser === true ? showUserComponent() : ""}
       </div>
     </div>
   );
