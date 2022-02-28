@@ -5,11 +5,11 @@ import { AppBar, Box, Button, IconButton, Link, Toolbar } from "@mui/material";
 let apikey = localStorage.getItem("API_KEY");
 
 const Header = (props: any) => {
-  const changeApiKey = () => {
-    apikey = prompt("Enter API Key");
+  // const changeApiKey = () => {
+  //   apikey = prompt("Enter API Key");
 
-    apikey ? localStorage.setItem("API_KEY", apikey) : localStorage.setItem("API_KEY", "");
-  };
+  //   apikey ? localStorage.setItem("API_KEY", apikey) : localStorage.setItem("API_KEY", "");
+  // };
 
   return (
     <div>
@@ -35,9 +35,9 @@ const Header = (props: any) => {
               </Link> */}
             </div>
             <div>
-              <Button variant="contained" color="primary" onClick={() => changeApiKey()}>
+              {/* <Button variant="contained" color="primary" onClick={() => changeApiKey()}>
                 Change Api-Key
-              </Button>
+              </Button> */}
             </div>
           </Toolbar>
         </AppBar>

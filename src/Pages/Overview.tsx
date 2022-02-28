@@ -2,19 +2,19 @@
 import { Button, dividerClasses } from "@mui/material";
 import { useState } from "react";
 
-import { getUsers } from "../Services/HttpService";
+import { getPlayerByName } from "../Services/HttpService";
 
 const Overview = (props: any) => {
   const [counter, setCounter] = useState(0);
   const [showUser, setShowUser] = useState(false);
 
-  const showUserComponent = () => {
-    let users = getUsers();
+  getPlayerByName("forevermates");
 
+  const showUserComponent = () => {
     return (
       <div>
-        <div>Name {users.name}</div>
-        <div>Age {users.age}</div>
+        <div>Name </div>
+        <div>Age </div>
       </div>
     );
   };
