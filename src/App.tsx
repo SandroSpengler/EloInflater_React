@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme, Theme } from "@mui/material/styles";
-import { blue, blueGrey, green, purple } from "@mui/material/colors";
+import { blue, blueGrey, deepPurple, green, purple } from "@mui/material/colors";
 
 import "./App.css";
 
@@ -16,11 +16,20 @@ const theme: Theme = createTheme({
     //   main: "#25416e",
     // },
     primary: blueGrey,
-    secondary: blue,
+    secondary: deepPurple,
   },
 });
 
 function App() {
+  let apikey = localStorage.getItem("API_KEY");
+
+  if (apikey) {
+  } else {
+    apikey = prompt("Enter API Key");
+
+    apikey ? localStorage.setItem("API_KEY", apikey) : localStorage.setItem("API_KEY", "");
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

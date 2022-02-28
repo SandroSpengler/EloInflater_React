@@ -26,13 +26,13 @@ const Overview = (props: any) => {
         <Button
           variant="contained"
           // variant="outlined"
-          color="primary"
+          color="secondary"
           onClick={() => setCounter(counter + 1)}
         >
           {counter} + 2
         </Button>
         <Button
-          color="primary"
+          color="secondary"
           variant="contained"
           onClick={() => {
             setShowUser(!showUser);
