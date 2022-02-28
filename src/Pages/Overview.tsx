@@ -1,6 +1,6 @@
 // import { Card, CardContent, Grid, Paper, Typography } from "@mui/material";
 import { Button, dividerClasses } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { getPlayerByName } from "../Services/HttpService";
 
@@ -8,7 +8,14 @@ const Overview = (props: any) => {
   const [counter, setCounter] = useState(0);
   const [showUser, setShowUser] = useState(false);
 
-  getPlayerByName("forevermates");
+  // Second Parameter tells the hook when to run e.g. the name changes
+  useEffect(() => {
+    (async () => {
+      let player = await getPlayerByName("forevermates");
+
+      console.log(player);
+    })();
+  }, []);
 
   const showUserComponent = () => {
     return (

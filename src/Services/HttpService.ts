@@ -1,40 +1,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from "axios";
+import { Summoner } from "../Models/Summoner";
 
 // only change by Region
-let protocol: string = "https://";
-let regionUrl: string = "euw1.api.riotgames.com";
-let genericUrl: string = "/lol/";
+let protocol: string = "http://";
+let genericUrl: string = "leagueabuser.localhost/api/";
 
-// changes for each endpoint
-let enpointUrl: string = "";
-
-const getPlayerByName = async (name: string) => {
+const getPlayerByName = async (name: string): Promise<Summoner | undefined> => {
   try {
-    const request = axios.get(`${buildBaseUrl(regionUrl, "summoner/v4/summoners/by-name/")}${name}`, buildConfig());
+    const request = axios.get(`${buildBaseUrl("summoner")}${name}`);
 
     const response = await request;
 
-    console.log(await response);
+    return await response.data.result;
   } catch (error) {
     console.log(error);
   }
 };
 
-const buildBaseUrl = (regionUrl: string, endpointUrl: string): string => {
-  let completeUrl = `${protocol}${regionUrl}${genericUrl}${endpointUrl}`;
+const buildBaseUrl = (endpointUrl: string): string => {
+  let completeUrl = `${protocol}${genericUrl}${endpointUrl}/`;
 
   return completeUrl;
-};
-
-const buildConfig = (): any => {
-  let config = {
-    headers: {
-      "X-Riot-Token": localStorage.getItem("API_KEY"),
-    },
-  };
-
-  return config;
 };
 
 export { getPlayerByName };
