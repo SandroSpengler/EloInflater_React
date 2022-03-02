@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === "development") {
   genericUrl = "leagueabuser.axfert.com/api/";
 }
 
-const getPlayerByName = async (name: string): Promise<Summoner | AxiosError> => {
+const getPlayerByName = async (name: string): Promise<Summoner> => {
   try {
     const request = axios.get(`${buildBaseUrl("summoner")}${name}`);
 

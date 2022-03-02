@@ -1,19 +1,27 @@
 // import { Card, CardContent, Grid, Paper, Typography } from "@mui/material";
-import { Button, dividerClasses } from "@mui/material";
+import { Button, CircularProgress, dividerClasses } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Summoner } from "../Models/Summoner";
 
 import { getPlayerByName } from "../Services/HttpService";
 
 const Overview = (props: any) => {
-  const [counter, setCounter] = useState(0);
+  const queryName = "Forevermates";
+
+  const [summoner, setSummoner] = useState<Summoner>();
   const [showUser, setShowUser] = useState(false);
 
   // Second Parameter tells the hook when to run e.g. the name changes
   useEffect(() => {
-    (async () => {
-      let player = await getPlayerByName("forevermates");
-      console.log(player);
-    })();
+    const fetchSummoner = async () => {
+      let fetchSummoner = await getPlayerByName(queryName);
+
+      try {
+        setSummoner(fetchSummoner);
+      } catch (error) {}
+    };
+
+    fetchSummoner();
   }, []);
 
   const showUserComponent = () => {
@@ -28,15 +36,9 @@ const Overview = (props: any) => {
   return (
     <div>
       <div>
-        <p>Hello World</p>
-        <Button
-          variant="contained"
-          // variant="outlined"
-          color="secondary"
-          onClick={() => setCounter(counter + 1)}
-        >
-          {counter} + 2
-        </Button>
+        <div>
+          {queryName}'s PlayerID is: {summoner?.puuid}
+        </div>
         <Button
           color="secondary"
           variant="contained"
