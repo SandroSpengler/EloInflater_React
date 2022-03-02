@@ -12,7 +12,6 @@ const Overview = (props: any) => {
   useEffect(() => {
     (async () => {
       let player = await getPlayerByName("forevermates");
-
       console.log(player);
     })();
   }, []);

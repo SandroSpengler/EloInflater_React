@@ -21,15 +21,6 @@ const theme: Theme = createTheme({
 });
 
 function App() {
-  // let apikey = localStorage.getItem("API_KEY");
-
-  // if (apikey) {
-  // } else {
-  //   apikey = prompt("Enter API Key");
-
-  //   apikey ? localStorage.setItem("API_KEY", apikey) : localStorage.setItem("API_KEY", "");
-  // }
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
