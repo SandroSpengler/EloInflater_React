@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios, { AxiosError } from "axios";
+import { LeaguePlayer } from "../Models/LeaguePlayer";
 import { Summoner } from "../Models/Summoner";
 // only change by Region
 
@@ -30,10 +31,33 @@ const getPlayerByName = async (name: string): Promise<Summoner> => {
   }
 };
 
+/**
+ * @param {string}  queueType - The Division of the Players e.g. Master
+ * @param {string}  queueMode - The Mode of the Gameplay e.g. rankedsolo
+ */
+const getPlayerByLeague = async (queueType: string, queueMode: string): Promise<LeaguePlayer[]> => {
+  // queueType challenger, grandmaster, master
+  // queueMode
+
+  try {
+    const request = axios.get(`${buildBaseUrl("league")}${queueType}/${queueMode}`);
+
+    const response = await request;
+
+    return await response.data.result;
+  } catch (error: any | AxiosError) {
+    if (axios.isAxiosError(error)) {
+      // console.log(error);
+    }
+
+    throw error;
+  }
+};
+
 const buildBaseUrl = (endpointUrl: string): string => {
   let completeUrl = `${protocol}${genericUrl}${endpointUrl}/`;
 
   return completeUrl;
 };
 
-export { getPlayerByName };
+export { getPlayerByName, getPlayerByLeague };
