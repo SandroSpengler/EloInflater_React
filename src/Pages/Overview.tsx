@@ -1,3 +1,4 @@
+import React from "react";
 // import { Card, CardContent, Grid, Paper, Typography } from "@mui/material";
 import {
   Avatar,
@@ -12,7 +13,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import React from "react";
+
 import { useEffect, useState } from "react";
 import { LeaguePlayer } from "../Models/LeaguePlayer";
 import { Summoner } from "../Models/Summoner";
@@ -26,6 +27,7 @@ const Overview = (props: any) => {
   const fetchSummoner = async (summonerName: string) => {
     try {
       let fetchSummoner = await getPlayerByName(summonerName);
+      console.log(fetchSummoner);
 
       setSummoner(fetchSummoner);
     } catch (error) {}
@@ -43,13 +45,17 @@ const Overview = (props: any) => {
 
   // Second Parameter tells the hook when to run e.g. the name changes
   useEffect(() => {
-    fetchPlayersByLeague();
+    fetchSummoner("forevermates");
   }, []);
 
   const renderExhaustAndTabiAbuser = () => {
     return challengerPlayerList?.map((player: LeaguePlayer, index) => {
       return (
-        <ListItem alignItems="flex-start" style={{ backgroundColor: "#1a261d", borderRadius: "20px", margin: "10px" }}>
+        <ListItem
+          key={index}
+          alignItems="flex-start"
+          style={{ backgroundColor: "#1a261d", borderRadius: "20px", margin: "10px" }}
+        >
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" />
           </ListItemAvatar>
@@ -72,7 +78,11 @@ const Overview = (props: any) => {
   const renderCleanSummoners = () => {
     return challengerPlayerList?.map((player: LeaguePlayer, index) => {
       return (
-        <ListItem alignItems="flex-start" style={{ backgroundColor: "darkblue", borderRadius: "20px", margin: "10px" }}>
+        <ListItem
+          key={index}
+          alignItems="flex-start"
+          style={{ backgroundColor: "darkblue", borderRadius: "20px", margin: "10px" }}
+        >
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" />
           </ListItemAvatar>
@@ -92,19 +102,19 @@ const Overview = (props: any) => {
     });
   };
 
-  return (
-    <div>
-      <Grid container spacing={2} columns={12} justifyContent="center">
-        <Grid item xs={5}>
-          {/* <List>{renderCleanSummoners()}</List> */}
-          <List>{renderExhaustAndTabiAbuser()}</List>
-        </Grid>
-        <Grid item xs={5}>
-          <List>{renderExhaustAndTabiAbuser()}</List>
-        </Grid>
-      </Grid>
-    </div>
-  );
+  // <div>
+  //   <Grid container spacing={2} columns={12} justifyContent="center">
+  //     <Grid item xs={5}>
+
+  //       {/* <List>{renderExhaustAndTabiAbuser()}</List> */}
+  //     </Grid>
+  //     <Grid item xs={5}>
+  //       {/* <List>{renderExhaustAndTabiAbuser()}</List> */}
+  //     </Grid>
+  //   </Grid>
+  // </div>
+
+  return <div></div>;
 };
 
 export default Overview;

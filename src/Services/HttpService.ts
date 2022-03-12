@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios, { AxiosError } from "axios";
 import { LeaguePlayer } from "../Models/LeaguePlayer";
 import { Summoner } from "../Models/Summoner";
@@ -6,6 +5,8 @@ import { Summoner } from "../Models/Summoner";
 
 let protocol: string;
 let genericUrl: string;
+let data: string = "data/";
+let refresh: string = "refresh/";
 
 if (process.env.NODE_ENV === "development") {
   protocol = "http://";
@@ -17,7 +18,7 @@ if (process.env.NODE_ENV === "development") {
 
 const getPlayerByName = async (name: string): Promise<Summoner> => {
   try {
-    const request = axios.get(`${buildBaseUrl("summoner")}${name}`);
+    const request = axios.get<Summoner, any>(`${buildBaseUrl(data, "summoner")}${name}`);
 
     const response = await request;
 
@@ -40,7 +41,7 @@ const getPlayerByLeague = async (queueType: string, queueMode: string): Promise<
   // queueMode
 
   try {
-    const request = axios.get(`${buildBaseUrl("league")}${queueType}/${queueMode}`);
+    const request = axios.get(`${buildBaseUrl(data, "league")}${queueType}/${queueMode}`);
 
     const response = await request;
 
@@ -54,8 +55,8 @@ const getPlayerByLeague = async (queueType: string, queueMode: string): Promise<
   }
 };
 
-const buildBaseUrl = (endpointUrl: string): string => {
-  let completeUrl = `${protocol}${genericUrl}${endpointUrl}/`;
+const buildBaseUrl = (action: string, endpointUrl: string): string => {
+  let completeUrl = `${protocol}${genericUrl}${action}${endpointUrl}/`;
 
   return completeUrl;
 };
