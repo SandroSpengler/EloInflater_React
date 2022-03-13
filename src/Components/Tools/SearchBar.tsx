@@ -23,7 +23,8 @@ const SearchBar = (props: {}) => {
         let axiosError: AxiosError = error;
 
         if (axiosError.response?.status === 404) {
-          navigate(path + "notFound");
+          alert("Summoner does not Exist");
+          // navigate("/data/summoner/notFound");
         }
       }
     }

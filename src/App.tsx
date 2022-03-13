@@ -8,8 +8,9 @@ import { blue, blueGrey, deepPurple, green, purple } from "@mui/material/colors"
 
 import "./App.css";
 
-import Home from "./Pages/Overview";
+import Home from "./Pages/Home";
 import Header from "./Components/Layout/Header";
+import SummonerSummary from "./Pages/SummonerSummary";
 
 const theme: Theme = createTheme({
   palette: {
@@ -19,6 +20,11 @@ const theme: Theme = createTheme({
     // },
     primary: blueGrey,
     secondary: deepPurple,
+  },
+  typography: {
+    button: {
+      textTransform: "none",
+    },
   },
 });
 
@@ -36,6 +42,8 @@ function App() {
             <Route path="*" element={<Home />}></Route>
             <Route path="/" element={<Home />}></Route>
             <Route path="home" element={<Home />}></Route>
+            <Route path="/data/summoner/notFound" element={<Home />}></Route>
+            <Route path="/data/summoner/:region/:summonerName" element={<SummonerSummary />}></Route>
           </Routes>
         </main>
       </Router>

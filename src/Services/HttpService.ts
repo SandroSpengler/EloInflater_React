@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === "development") {
   genericUrl = "leagueabuser.axfert.com/api/";
 }
 
-const getPlayerByName = async (name: string): Promise<Summoner> => {
+const getSummonerByName = async (name: string): Promise<Summoner> => {
   try {
     const request = axios.get<Summoner, any>(`${buildBaseUrl(data, "summoner")}${name}`);
 
@@ -62,4 +62,4 @@ const buildBaseUrl = (action: string, endpointUrl: string): string => {
   return completeUrl;
 };
 
-export { getPlayerByName, getPlayerByLeague };
+export { getSummonerByName as getPlayerByName, getPlayerByLeague };

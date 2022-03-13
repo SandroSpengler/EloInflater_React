@@ -6,6 +6,8 @@ export interface Summoner {
   profileIconId: number;
   revisionDate: number;
   summonerLevel: number;
+  updatedAt: string;
+  createdAt: string;
   matchList: MatchListEntry[];
 }
 export interface MatchListEntry {
