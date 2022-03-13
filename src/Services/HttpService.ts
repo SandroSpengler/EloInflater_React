@@ -56,10 +56,33 @@ const getPlayerByLeague = async (queueType: string, queueMode: string): Promise<
   }
 };
 
+/**
+ * @param {string}  name - Name of the Summoner tha tneeds to be updated
+
+ */
+const updateSummonerData = async (summonerName: string): Promise<LeaguePlayer[]> => {
+  // queueType challenger, grandmaster, master
+  // queueMode
+
+  try {
+    const request = axios.get(`${buildBaseUrl(refresh, "summoner/byName")}${summonerName}`);
+
+    const response = await request;
+
+    return await response.data.result;
+  } catch (error: any | AxiosError) {
+    if (axios.isAxiosError(error)) {
+      // console.log(error);
+    }
+
+    throw error;
+  }
+};
+
 const buildBaseUrl = (action: string, endpointUrl: string): string => {
   let completeUrl = `${protocol}${genericUrl}${action}${endpointUrl}/`;
 
   return completeUrl;
 };
 
-export { getSummonerByName as getPlayerByName, getPlayerByLeague };
+export { getSummonerByName as getPlayerByName, getPlayerByLeague, updateSummonerData };

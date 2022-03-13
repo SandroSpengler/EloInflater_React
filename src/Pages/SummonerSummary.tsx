@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Summoner } from "../Models/Summoner";
 
-import { getPlayerByName } from "../Services/HttpService";
+import { getPlayerByName, updateSummonerData } from "../Services/HttpService";
 
 function SummonerSummary(props: any) {
   let { region, summonerName } = useParams();
@@ -23,21 +23,27 @@ function SummonerSummary(props: any) {
   const [summoner, setSummoner] = useState<Summoner>();
   const [summonerIsUpdating, setSummonerIsUpdating] = useState<Boolean>(false);
   const [summonerCanBeUpdated, setsummonerCanBeUpdated] = useState(true);
+  const [exhaustCount, setexhaustCount] = useState(0);
+  const [tabisCount, setTabisCount] = useState(0);
 
   const fetchSummoner = async (summonerName: string) => {
     try {
       let fetchSummoner = await getPlayerByName(summonerName);
-      console.log(fetchSummoner);
 
-      setSummoner(fetchSummoner);
+      await setSummoner(fetchSummoner);
     } catch (error) {}
   };
 
   useEffect(() => {
     if (summonerName) {
       fetchSummoner(summonerName);
+      calcualteTabisAndExhaust();
     }
   }, []);
+
+  useEffect(() => {
+    calcualteTabisAndExhaust();
+  }, [summoner]);
 
   const displayDate = (dateToDisplay: string | undefined) => {
     if (dateToDisplay) {
@@ -47,6 +53,53 @@ function SummonerSummary(props: any) {
     }
 
     return "";
+  };
+
+  const updateSummoner = async () => {
+    try {
+      if (summoner) {
+        await setSummonerIsUpdating(true);
+
+        await updateSummonerData(summoner.name);
+
+        await fetchSummoner(summoner.name);
+
+        await setSummonerIsUpdating(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setSummonerIsUpdating(false);
+      alert("Summoner could not be updated");
+    } finally {
+      //   calcualteTabisAndExhaust();
+    }
+  };
+
+  const calcualteTabisAndExhaust = async () => {
+    if (summoner === undefined || summoner.matchList === undefined) {
+      //   setexhaustCount(0);
+      //   setTabisCount(0);
+
+      return;
+    }
+
+    try {
+      let exhaustAbused: number = 0;
+      let tabisAbused: number = 0;
+
+      summoner.matchList.forEach(async (match) => {
+        if (match.exhaustAbused === true) {
+          exhaustAbused += 1;
+        }
+
+        if (match.tabisAbused === true) {
+          tabisAbused += 1;
+        }
+      });
+
+      await setexhaustCount(exhaustAbused);
+      await setTabisCount(tabisAbused);
+    } catch (error) {}
   };
 
   const showUpdateButtonOrSpinner = () => {
@@ -62,6 +115,9 @@ function SummonerSummary(props: any) {
           color="secondary"
           size="small"
           style={{ marginRight: "10px" }}
+          onClick={() => {
+            updateSummoner();
+          }}
         >
           Update
         </Button>
@@ -116,12 +172,27 @@ function SummonerSummary(props: any) {
         <Grid item xs={12} md={9}>
           <Paper style={{ padding: "10px", display: "flex", justifyContent: "space-around" }}>
             <Typography component="div" variant="h6" color="text.primary">
-              Exhaust : {12}
+              Exhaust : {exhaustCount}
             </Typography>
             <Typography component="div" variant="h6" color="text.primary">
-              Tabis : {12}
+              Tabis : {tabisCount}
             </Typography>
           </Paper>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          {summoner?.matchList?.map((match) => {
+            if (match) {
+              return (
+                <Paper key={match._id} style={{ padding: "10px" }}>
+                  <Typography component="div" variant="h6" color="text.primary">
+                    Matchid {match.matchId}
+                  </Typography>
+                </Paper>
+              );
+            } else {
+              return "";
+            }
+          })}
         </Grid>
       </Grid>
     </div>
