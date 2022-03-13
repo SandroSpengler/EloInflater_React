@@ -1,4 +1,6 @@
 import React from "react";
+import { useEffect, useState } from "react";
+
 // import { Card, CardContent, Grid, Paper, Typography } from "@mui/material";
 import {
   Avatar,
@@ -14,7 +16,8 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useEffect, useState } from "react";
+import SearchBar from "../Components/Tools/SearchBar";
+
 import { LeaguePlayer } from "../Models/LeaguePlayer";
 import { Summoner } from "../Models/Summoner";
 
@@ -114,7 +117,17 @@ const Overview = (props: any) => {
   //   </Grid>
   // </div>
 
-  return <div></div>;
+  return (
+    <div>
+      <div className="searchBarWrapper">
+        <Grid container spacing={12}>
+          <Grid item xs={12}>
+            <SearchBar />
+          </Grid>
+        </Grid>
+      </div>
+    </div>
+  );
 };
 
 export default Overview;
