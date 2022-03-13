@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Button, IconButton, TextField } from "@mui/material";
 
+import { getPlayerByName } from "../../Services/HttpService";
+import axios, { AxiosError } from "axios";
+
 const SearchBar = (props: {}) => {
+  const [searchSummonerName, setSearchSummonerName] = useState("");
+
+  const navigate = useNavigate();
+
+  const validateSummonerAndNavigate = async () => {
+    let path = `/data/summoner/euw/`;
+
+    try {
+      const summoner = await getPlayerByName(searchSummonerName);
+
+      navigate(path + summoner.name);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        let axiosError: AxiosError = error;
+
+        if (axiosError.response?.status === 404) {
+          navigate(path + "notFound");
+        }
+      }
+    }
+  };
+
   const SearchButton = () => {
     return (
       //   <IconButton
@@ -15,7 +41,7 @@ const SearchBar = (props: {}) => {
         color="secondary"
         size="small"
         onClick={() => {
-          console.log("click");
+          validateSummonerAndNavigate();
         }}
       >
         Search
@@ -28,9 +54,13 @@ const SearchBar = (props: {}) => {
       <TextField
         id="summonerName"
         label="Summoner Name"
+        value={searchSummonerName}
         variant="outlined"
         style={{ width: 800 }}
         color="primary"
+        onChange={(e) => {
+          setSearchSummonerName(e.target.value);
+        }}
         InputProps={{ endAdornment: <SearchButton /> }}
       />
     </div>

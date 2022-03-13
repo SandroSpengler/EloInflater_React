@@ -23,7 +23,7 @@ import { Summoner } from "../Models/Summoner";
 
 import { getPlayerByLeague, getPlayerByName } from "../Services/HttpService";
 
-const Overview = (props: any) => {
+const Home = (props: any) => {
   const [summoner, setSummoner] = useState<Summoner>();
   const [challengerPlayerList, setchallengerPlayerList] = useState<LeaguePlayer[]>();
 
@@ -130,4 +130,4 @@ const Overview = (props: any) => {
   );
 };
 
-export default Overview;
+export default Home;

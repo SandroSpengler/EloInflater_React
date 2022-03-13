@@ -8,7 +8,7 @@ import { blue, blueGrey, deepPurple, green, purple } from "@mui/material/colors"
 
 import "./App.css";
 
-import Overview from "./Pages/Overview";
+import Home from "./Pages/Overview";
 import Header from "./Components/Layout/Header";
 
 const theme: Theme = createTheme({
@@ -33,9 +33,9 @@ function App() {
 
         <main>
           <Routes>
-            <Route path="*" element={<Overview />}></Route>
-            <Route path="/" element={<Overview />}></Route>
-            <Route path="overview" element={<Overview />}></Route>
+            <Route path="*" element={<Home />}></Route>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="home" element={<Home />}></Route>
           </Routes>
         </main>
       </Router>
