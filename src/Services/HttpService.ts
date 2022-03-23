@@ -10,11 +10,11 @@ let refresh: string = "refresh/";
 
 if (process.env.NODE_ENV === "development") {
   protocol = "http://";
-  genericUrl = "leagueabuser.localhost/api/";
+  genericUrl = "eloinflater.localhost/api/";
   // genericUrl = "localhost:5000/api/";
 } else {
   protocol = "https://";
-  genericUrl = "leagueabuser.axfert.com/api/";
+  genericUrl = "eloinflater.axfert.com/api/";
 }
 
 const getSummonerByName = async (name: string): Promise<Summoner> => {

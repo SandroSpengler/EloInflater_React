@@ -11,6 +11,7 @@ import {
   LinearProgress,
   CircularProgress,
 } from "@mui/material";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Summoner } from "../Models/Summoner";
@@ -47,7 +48,7 @@ function SummonerSummary(props: any) {
 
   const displayDate = (dateToDisplay: string | undefined) => {
     if (dateToDisplay) {
-      let s = new Date(dateToDisplay).toISOString();
+      let s = moment(dateToDisplay).fromNow();
 
       return s;
     }
