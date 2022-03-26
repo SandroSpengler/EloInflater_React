@@ -36,7 +36,7 @@ function SummonerSummary(props: any) {
 
   // Counters
   const [exhaustCount, setexhaustCount] = useState(0);
-  const [exhastCastedCount, setexhastCastedCount] = useState(0);
+  const [exhaustCastedCount, setexhastCastedCount] = useState(0);
   const [tabisCount, setTabisCount] = useState(0);
   const [zhonaysCount, setzhonaysCount] = useState(0);
   const [zhonaysCastedCount, setzhonaysCastedCount] = useState(0);
@@ -101,8 +101,10 @@ function SummonerSummary(props: any) {
 
   const calcualteTabisAndExhaust = async () => {
     try {
-      let exhaustAbused: number = 0;
-      let tabisAbused: number = 0;
+      let exhaustCount: number = 0;
+      let exhaustUsedCount: number = 0;
+      let tabisCount: number = 0;
+      let zhonaysCount: number = 0;
 
       if (summonerMatches === undefined) return;
 
@@ -131,13 +133,79 @@ function SummonerSummary(props: any) {
       }
 
       matchesForSummonerPUUID.forEach((participant: Participant) => {
-        exhaustAbused += participant.assists;
+        if (participant?.summoner1Id === 3) {
+          // summonerMatchDetails.exhaustAbused = true;
+
+          exhaustCount += 1;
+          exhaustUsedCount = participant.summoner1Casts;
+        }
+
+        if (participant?.summoner2Id === 3) {
+          // summonerMatchDetails.exhaustAbused = true;
+
+          exhaustCount += 1;
+          exhaustUsedCount = participant.summoner2Casts;
+        }
+
+        // Items === Tabis (Id: 3047)
+        // Items === Zhonay's (Id: 3157)
+
+        if (participant?.item0 === 3047) {
+          tabisCount += 1;
+        }
+        if (participant?.item0 === 3157) {
+          zhonaysCount += 1;
+        }
+
+        if (participant?.item1 === 3047) {
+          tabisCount += 1;
+        }
+        if (participant?.item1 === 3157) {
+          zhonaysCount += 1;
+        }
+
+        if (participant?.item2 === 3047) {
+          tabisCount += 1;
+        }
+        if (participant?.item2 === 3157) {
+          zhonaysCount += 1;
+        }
+
+        if (participant?.item3 === 3047) {
+          tabisCount += 1;
+        }
+        if (participant?.item3 === 3157) {
+          zhonaysCount += 1;
+        }
+
+        if (participant?.item4 === 3047) {
+          tabisCount += 1;
+        }
+        if (participant?.item4 === 3157) {
+          zhonaysCount += 1;
+        }
+
+        if (participant?.item5 === 3047) {
+          tabisCount += 1;
+        }
+        if (participant?.item5 === 3157) {
+          zhonaysCount += 1;
+        }
+
+        if (participant?.item6 === 3047) {
+          tabisCount += 1;
+        }
+        if (participant?.item6 === 3157) {
+          zhonaysCount += 1;
+        }
 
         console.log("match");
       });
 
-      await setexhaustCount(exhaustAbused);
-      await setTabisCount(tabisAbused);
+      await setexhaustCount(exhaustCount);
+      await setexhastCastedCount(exhaustUsedCount);
+      await setTabisCount(tabisCount);
+      await setzhonaysCount(zhonaysCount);
     } catch (error) {}
   };
 
@@ -207,7 +275,7 @@ function SummonerSummary(props: any) {
             <div className={"SummonerIcon"}>
               <Avatar
                 variant="square"
-                src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon948.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1648211565552"
+                src={` https://opgg-static.akamaized.net/images/profile_icons/profileIcon${summoner?.profileIconId}.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1648211565552`}
                 style={{ width: 100, height: 100 }}
               ></Avatar>
             </div>
@@ -241,7 +309,7 @@ function SummonerSummary(props: any) {
                 Matches Checked
               </Typography>
               <Typography component="div" variant="h6" fontSize={20} color="text.primary">
-                {summonerMatches?.length}
+                {summonerMatches ? summonerMatches?.length : "n/a"}
               </Typography>
             </div>
           </Paper>
@@ -251,7 +319,7 @@ function SummonerSummary(props: any) {
                 Exhaust Picked
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
-                {summonerMatches?.length}
+                {summonerMatches ? exhaustCount : "n/a"}
               </Typography>
             </div>
 
@@ -260,7 +328,7 @@ function SummonerSummary(props: any) {
                 Casted
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
-                {summonerMatches?.length}
+                {summonerMatches ? exhaustCastedCount : "n/a"}
               </Typography>
             </div>
           </Paper>
@@ -270,7 +338,7 @@ function SummonerSummary(props: any) {
                 Tabis Abused
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
-                {summonerMatches?.length}
+                {summonerMatches ? tabisCount : "n/a"}
               </Typography>
             </div>
 
@@ -289,7 +357,7 @@ function SummonerSummary(props: any) {
                 {"Zhonya's bought"}
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
-                {summonerMatches?.length}
+                {summonerMatches ? zhonaysCount : "n/a"}
               </Typography>
             </div>
 
@@ -298,7 +366,7 @@ function SummonerSummary(props: any) {
                 Casted
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
-                203
+                {summonerMatches ? "n/a" : "n/a"}
               </Typography>
             </div>
           </Paper>
