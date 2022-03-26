@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Button, IconButton, TextField } from "@mui/material";
 
-import { getPlayerByName } from "../../Services/HttpService";
+import { getSummonerByName } from "../../Services/HttpService";
 import axios, { AxiosError } from "axios";
 
 const SearchBar = (props: {}) => {
@@ -15,7 +15,7 @@ const SearchBar = (props: {}) => {
     let path = `/data/summoner/euw/`;
 
     try {
-      const summoner = await getPlayerByName(searchSummonerName);
+      const summoner = await getSummonerByName(searchSummonerName);
 
       navigate(path + summoner.name);
     } catch (error) {

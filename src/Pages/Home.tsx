@@ -21,7 +21,7 @@ import SearchBar from "../Components/Tools/SearchBar";
 import { LeaguePlayer } from "../Models/LeaguePlayer";
 import { Summoner } from "../Models/Summoner";
 
-import { getPlayerByLeague, getPlayerByName } from "../Services/HttpService";
+import { getPlayerByLeague } from "../Services/HttpService";
 
 const Home = (props: any) => {
   const [summoner, setSummoner] = useState<Summoner>();

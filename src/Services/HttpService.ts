@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { LeaguePlayer } from "../Models/LeaguePlayer";
+import { MatchData } from "../Models/MatchData";
 import { Summoner } from "../Models/Summoner";
 // only change by Region
 
@@ -57,6 +58,29 @@ const getPlayerByLeague = async (queueType: string, queueMode: string): Promise<
 };
 
 /**
+ * @param {string}  queueType - The Division of the Players e.g. Master
+ * @param {string}  queueMode - The Mode of the Gameplay e.g. rankedsolo
+ */
+const getMatchesBySummonerName = async (summonerName: string): Promise<MatchData[]> => {
+  // queueType challenger, grandmaster, master
+  // queueMode
+
+  try {
+    const request = axios.get(`${buildBaseUrl(data, "match")}${summonerName}`);
+
+    const response = await request;
+
+    return await response.data.result;
+  } catch (error: any | AxiosError) {
+    if (axios.isAxiosError(error)) {
+      // console.log(error);
+    }
+
+    throw error;
+  }
+};
+
+/**
  * @param {string}  name - Name of the Summoner tha tneeds to be updated
 
  */
@@ -85,4 +109,4 @@ const buildBaseUrl = (action: string, endpointUrl: string): string => {
   return completeUrl;
 };
 
-export { getSummonerByName as getPlayerByName, getPlayerByLeague, updateSummonerData };
+export { getSummonerByName, getPlayerByLeague, getMatchesBySummonerName, updateSummonerData };
