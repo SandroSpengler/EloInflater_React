@@ -13,6 +13,7 @@ import {
   Box,
 } from "@mui/material";
 import { width } from "@mui/system";
+import axios, { AxiosError } from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -87,15 +88,32 @@ function SummonerSummary(props: any) {
         await updateSummonerData(summoner.name);
 
         await fetchSummonerData(summoner.name);
-
-        await setSummonerIsUpdating(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       setSummonerIsUpdating(false);
-      alert("Summoner could not be updated");
+
+      if (axios.isAxiosError(error)) {
+        let axiosError: AxiosError = error;
+
+        if (axiosError.response?.status === 409) {
+          // Add Summoner to list of summoners that need updating
+
+          alert("Summoner already updated within the last 2 Minutes");
+        }
+
+        if (axiosError.response?.status === 429) {
+          // Add Summoner to list of summoners that need updating
+
+          alert("Rate limit exceed please try again in 2 Minutes");
+        }
+      } else {
+        alert("Update failed");
+      }
     } finally {
       //   calcualteTabisAndExhaust();
+
+      await setSummonerIsUpdating(false);
     }
   };
 
@@ -234,30 +252,11 @@ function SummonerSummary(props: any) {
     return <div>{elementToShow}</div>;
   };
 
-  const renderExhaustAndTabiAbuser = () => {
-    return (
-      <ListItem alignItems="flex-start" style={{ backgroundColor: "#1a261d", borderRadius: "20px", margin: "10px" }}>
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" />
-        </ListItemAvatar>
-        <ListItemText
-          primary={`${summoner?.name}`}
-          secondary={
-            <React.Fragment>
-              <Typography sx={{ display: "inline" }} component="span" variant="body2" color="text.primary">
-                {`W:  L: `}
-              </Typography>
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-    );
-  };
   const showSummonerInformation = () => {
     if (summoner) {
       let SummonerInformationString: string = "";
 
-      SummonerInformationString = `${summoner.rankSolo ? summoner.rankSolo : "rank n/a"} ${
+      SummonerInformationString = `${summoner.rankSolo ? summoner.rankSolo : "Rank: n/a"} ${
         summoner.rank ? summoner.rank : ""
       } W: ${summoner.wins ? summoner.wins : "n/a"} L: ${summoner.losses ? summoner.losses : "n/a"}`;
 
