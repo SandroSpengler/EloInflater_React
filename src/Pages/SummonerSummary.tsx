@@ -72,7 +72,7 @@ function SummonerSummary(props: any) {
       return s;
     }
 
-    return "";
+    return "n/a";
   };
 
   const updateSummoner = async () => {
@@ -148,8 +148,8 @@ function SummonerSummary(props: any) {
           disabled={!summonerCanBeUpdated}
           variant="contained"
           color="secondary"
-          size="small"
-          style={{ marginRight: "10px" }}
+          size="medium"
+          style={{ marginTop: "10px", marginBottom: "10px" }}
           onClick={() => {
             updateSummoner();
           }}
@@ -200,7 +200,7 @@ function SummonerSummary(props: any) {
       <Grid container spacing={1} columns={12}>
         <Grid item md={5} lg={4}>
           <Paper className="InformationPaper">
-            <div>
+            <div className={"SummonerIcon"}>
               <Avatar
                 variant="square"
                 src="https://opgg-static.akamaized.net/images/profile_icons/profileIcon948.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1648211565552"
@@ -219,18 +219,9 @@ function SummonerSummary(props: any) {
               <Typography component="div" variant="h6" fontSize={16} padding={"3px"} color="text.primary">
                 {showSummonerInformation()}
               </Typography>
-            </div>
 
-            {/* <div>
-              <Typography component="div" variant="h5" color="text.primary">
-                {summoner?.name}
-              </Typography>
-              <Typography component="p" variant="subtitle2" color="text.primary">
-                Last Updated : {displayDate(summoner?.lastMatchUpdate)}
-              </Typography>
+              <div>{showUpdateButtonOrSpinner()}</div>
             </div>
-
-            <div>{showUpdateButtonOrSpinner()}</div> */}
           </Paper>
         </Grid>
 
