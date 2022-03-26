@@ -155,14 +155,14 @@ function SummonerSummary(props: any) {
           // summonerMatchDetails.exhaustAbused = true;
 
           exhaustCount += 1;
-          exhaustUsedCount = participant.summoner1Casts;
+          exhaustUsedCount += participant.summoner1Casts;
         }
 
         if (participant?.summoner2Id === 3) {
           // summonerMatchDetails.exhaustAbused = true;
 
           exhaustCount += 1;
-          exhaustUsedCount = participant.summoner2Casts;
+          exhaustUsedCount += participant.summoner2Casts;
         }
 
         // Items === Tabis (Id: 3047)

@@ -11,8 +11,8 @@ let refresh: string = "refresh/";
 
 if (process.env.NODE_ENV === "development") {
   protocol = "http://";
-  // genericUrl = "eloinflater.localhost/api/";
-  genericUrl = "localhost:5000/api/";
+  genericUrl = "eloinflater.localhost/api/";
+  // genericUrl = "localhost:5000/api/";
 } else {
   protocol = "https://";
   genericUrl = "eloinflater.axfert.com/api/";
