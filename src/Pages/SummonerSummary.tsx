@@ -12,6 +12,7 @@ import {
   CircularProgress,
   Box,
 } from "@mui/material";
+import { width } from "@mui/system";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -35,7 +36,10 @@ function SummonerSummary(props: any) {
 
   // Counters
   const [exhaustCount, setexhaustCount] = useState(0);
+  const [exhastCastedCount, setexhastCastedCount] = useState(0);
   const [tabisCount, setTabisCount] = useState(0);
+  const [zhonaysCount, setzhonaysCount] = useState(0);
+  const [zhonaysCastedCount, setzhonaysCastedCount] = useState(0);
 
   const fetchSummonerData = async (summonerName: string) => {
     let summoner: Summoner;
@@ -216,7 +220,7 @@ function SummonerSummary(props: any) {
                 Last Updated: {displayDate(summoner?.lastMatchUpdate)}
               </Typography>
 
-              <Typography component="div" variant="h6" fontSize={16} padding={"3px"} color="text.primary">
+              <Typography component="div" variant="h6" fontSize={14} padding={"3px"} color="text.primary">
                 {showSummonerInformation()}
               </Typography>
 
@@ -226,24 +230,76 @@ function SummonerSummary(props: any) {
         </Grid>
 
         <Grid item md={7} lg={8}>
-          <Paper style={{ padding: "10px", display: "flex", justifyContent: "space-around" }}>
-            <Typography component="div" variant="h6" color="text.primary">
-              Exhaust : {summonerMatches?.length! > 0 ? exhaustCount : "X"}
-            </Typography>
-            <Typography component="div" variant="h6" color="text.primary">
-              Tabis : {summonerMatches?.length! > 0 ? tabisCount : "X"}
-            </Typography>
-          </Paper>
+          <Paper></Paper>
         </Grid>
         <Box width="100%" />
 
         <Grid item md={5} lg={4}>
           <Paper className="InformationPaper">
-            <div>
-              <Typography component="div" variant="h5" color="text.primary">
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+              <Typography component="div" variant="h6" fontSize={20} color="text.primary">
                 Matches Checked
               </Typography>
-              <Typography component="p" variant="subtitle2" color="text.primary"></Typography>
+              <Typography component="div" variant="h6" fontSize={20} color="text.primary">
+                {summonerMatches?.length}
+              </Typography>
+            </div>
+          </Paper>
+          <Paper className="InflationStats">
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
+                Exhaust Picked
+              </Typography>
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+                {summonerMatches?.length}
+              </Typography>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
+                Casted
+              </Typography>
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
+                {summonerMatches?.length}
+              </Typography>
+            </div>
+          </Paper>
+          <Paper className="InflationStats">
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
+                Tabis Abused
+              </Typography>
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+                {summonerMatches?.length}
+              </Typography>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
+                ---
+              </Typography>
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
+                --
+              </Typography>
+            </div>
+          </Paper>
+          <Paper className="InflationStats">
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
+                {"Zhonya's bought"}
+              </Typography>
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+                {summonerMatches?.length}
+              </Typography>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
+                Casted
+              </Typography>
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
+                203
+              </Typography>
             </div>
           </Paper>
         </Grid>

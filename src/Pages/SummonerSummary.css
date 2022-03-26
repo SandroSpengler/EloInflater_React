@@ -1,6 +1,8 @@
 .InformationPaper {
   display: flex;
   max-width: 450px;
+  margin-bottom: 15px;
+  padding: 3%;
 }
 
 .InformationText {
@@ -9,6 +11,7 @@
   /* display: block; */
 }
 
-.SummonerIcon {
-  padding: 2%;
+.InflationStats {
+  margin-bottom: 15px;
+  padding: 3%;
 }
