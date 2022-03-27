@@ -20,7 +20,12 @@ import { useParams } from "react-router-dom";
 import { MatchData, Participant } from "../Models/MatchData";
 import { Summoner } from "../Models/Summoner";
 
-import { getMatchesBySummonerName, getSummonerByName, updateSummonerData } from "../Services/HttpService";
+import {
+  getMatchesBySummonerName,
+  getSummonerByName,
+  updateSummonerData,
+  updateSummonerInflationByPUUID,
+} from "../Services/HttpService";
 
 import "./SummonerSummary.css";
 
@@ -29,46 +34,41 @@ function SummonerSummary(props: any) {
 
   // Data
   const [summoner, setSummoner] = useState<Summoner>();
-  const [summonerMatches, setsummonerMatches] = useState<MatchData[]>();
+  const [summonerMatchList, setsummonerMatchList] = useState();
 
   // Interface
   const [summonerIsUpdating, setSummonerIsUpdating] = useState<Boolean>(false);
   const [summonerCanBeUpdated, setsummonerCanBeUpdated] = useState(true);
 
   // Counters
-  const [exhaustCount, setexhaustCount] = useState(0);
-  const [exhaustCastedCount, setexhastCastedCount] = useState(0);
-  const [tabisCount, setTabisCount] = useState(0);
-  const [zhonaysCount, setzhonaysCount] = useState(0);
-  const [zhonaysCastedCount, setzhonaysCastedCount] = useState(0);
+  const [exhaustCount, setexhaustCount] = useState<number | undefined>(0);
+  const [exhaustCastedCount, setexhaustCastedCount] = useState<number | undefined>(0);
+  const [tabisCount, setTabisCount] = useState<number | undefined>(0);
+  const [zhonaysCount, setzhonaysCount] = useState<number | undefined>(0);
+  const [zhonaysCastedCount, setzhonaysCastedCount] = useState<number | undefined>(0);
 
   const fetchSummonerData = async (summonerName: string) => {
     let summoner: Summoner;
 
-    let summonerMatches: MatchData[];
-
     try {
       summoner = await getSummonerByName(summonerName);
-      console.log(summoner);
 
       await setSummoner(summoner);
 
-      summonerMatches = await getMatchesBySummonerName(summoner.name);
-
-      await setsummonerMatches(summonerMatches);
+      await setexhaustCount(summoner.exhaustCount);
+      await setexhaustCastedCount(summoner.exhaustCastCount);
+      await setTabisCount(summoner.tabisCount);
+      await setzhonaysCount(summoner.zhonaysCount);
     } catch (error) {}
   };
 
   useEffect(() => {
     if (summonerName) {
       fetchSummonerData(summonerName);
-      calcualteTabisAndExhaust();
+
+      // calcualteTabisAndExhaust();
     }
   }, []);
-
-  useEffect(() => {
-    calcualteTabisAndExhaust();
-  }, [summoner, summonerMatches]);
 
   const displayDate = (dateToDisplay: number | undefined) => {
     if (dateToDisplay) {
@@ -91,6 +91,10 @@ function SummonerSummary(props: any) {
       }
     } catch (error: any) {
       console.log(error);
+      updateSummonerInflationByPUUID(summoner!.puuid);
+
+      await fetchSummonerData(summoner!.name);
+
       setSummonerIsUpdating(false);
 
       if (axios.isAxiosError(error)) {
@@ -99,7 +103,7 @@ function SummonerSummary(props: any) {
         if (axiosError.response?.status === 409) {
           // Add Summoner to list of summoners that need updating
 
-          alert("Summoner already updated within the last 2 Minutes");
+          alert("Summoner already updated recently");
         }
 
         if (axiosError.response?.status === 429) {
@@ -115,116 +119,6 @@ function SummonerSummary(props: any) {
 
       await setSummonerIsUpdating(false);
     }
-  };
-
-  const calcualteTabisAndExhaust = async () => {
-    try {
-      let exhaustCount: number = 0;
-      let exhaustUsedCount: number = 0;
-      let tabisCount: number = 0;
-      let zhonaysCount: number = 0;
-
-      if (summonerMatches === undefined) return;
-
-      // summoner.matchList.forEach(async (match) => {
-      //   if (match.exhaustAbused === true) {
-      //     exhaustAbused += 1;
-      //   }
-
-      //   if (match.tabisAbused === true) {
-      //     tabisAbused += 1;
-      //   }
-      // });
-
-      let matchesForSummonerPUUID: Participant[] = [];
-
-      for (const [index, match] of summonerMatches.entries()) {
-        let summonerMatch: Participant | undefined = match.info[0].participants.find((participant) => {
-          return participant.puuid === summoner?.puuid;
-        });
-
-        if (summonerMatch === undefined) {
-          continue;
-        }
-
-        matchesForSummonerPUUID.push(summonerMatch);
-      }
-
-      matchesForSummonerPUUID.forEach((participant: Participant) => {
-        if (participant?.summoner1Id === 3) {
-          // summonerMatchDetails.exhaustAbused = true;
-
-          exhaustCount += 1;
-          exhaustUsedCount += participant.summoner1Casts;
-        }
-
-        if (participant?.summoner2Id === 3) {
-          // summonerMatchDetails.exhaustAbused = true;
-
-          exhaustCount += 1;
-          exhaustUsedCount += participant.summoner2Casts;
-        }
-
-        // Items === Tabis (Id: 3047)
-        // Items === Zhonay's (Id: 3157)
-
-        if (participant?.item0 === 3047) {
-          tabisCount += 1;
-        }
-        if (participant?.item0 === 3157) {
-          zhonaysCount += 1;
-        }
-
-        if (participant?.item1 === 3047) {
-          tabisCount += 1;
-        }
-        if (participant?.item1 === 3157) {
-          zhonaysCount += 1;
-        }
-
-        if (participant?.item2 === 3047) {
-          tabisCount += 1;
-        }
-        if (participant?.item2 === 3157) {
-          zhonaysCount += 1;
-        }
-
-        if (participant?.item3 === 3047) {
-          tabisCount += 1;
-        }
-        if (participant?.item3 === 3157) {
-          zhonaysCount += 1;
-        }
-
-        if (participant?.item4 === 3047) {
-          tabisCount += 1;
-        }
-        if (participant?.item4 === 3157) {
-          zhonaysCount += 1;
-        }
-
-        if (participant?.item5 === 3047) {
-          tabisCount += 1;
-        }
-        if (participant?.item5 === 3157) {
-          zhonaysCount += 1;
-        }
-
-        if (participant?.item6 === 3047) {
-          tabisCount += 1;
-        }
-        if (participant?.item6 === 3157) {
-          zhonaysCount += 1;
-        }
-
-        console.log("match");
-      });
-
-      await setexhaustCount(exhaustCount);
-      await setexhastCastedCount(exhaustUsedCount);
-      await setTabisCount(tabisCount);
-      await setzhonaysCount(zhonaysCount);
-    } catch (error) {}
   };
 
   const showUpdateButtonOrSpinner = () => {
@@ -308,7 +202,7 @@ function SummonerSummary(props: any) {
                 Matches Checked
               </Typography>
               <Typography component="div" variant="h6" fontSize={20} color="text.primary">
-                {summonerMatches ? summonerMatches?.length : "n/a"}
+                {summoner?.matchList?.length ? summoner.matchList.length : "n/a"}
               </Typography>
             </div>
           </Paper>
@@ -318,7 +212,7 @@ function SummonerSummary(props: any) {
                 Exhaust Picked
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
-                {summonerMatches ? exhaustCount : "n/a"}
+                {exhaustCount ? exhaustCount : "n/a"}
               </Typography>
             </div>
 
@@ -327,7 +221,7 @@ function SummonerSummary(props: any) {
                 Casted
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
-                {summonerMatches ? exhaustCastedCount : "n/a"}
+                {exhaustCastedCount ? exhaustCastedCount : "n/a"}
               </Typography>
             </div>
           </Paper>
@@ -337,7 +231,7 @@ function SummonerSummary(props: any) {
                 Tabis Abused
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
-                {summonerMatches ? tabisCount : "n/a"}
+                {tabisCount ? tabisCount : "n/a"}
               </Typography>
             </div>
 
@@ -356,7 +250,7 @@ function SummonerSummary(props: any) {
                 {"Zhonya's bought"}
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
-                {summonerMatches ? zhonaysCount : "n/a"}
+                {zhonaysCount ? zhonaysCount : "n/a"}
               </Typography>
             </div>
 
@@ -365,7 +259,7 @@ function SummonerSummary(props: any) {
                 Casted
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
-                {summonerMatches ? "n/a" : "n/a"}
+                {summoner?.matchList ? "n/a" : "n/a"}
               </Typography>
             </div>
           </Paper>

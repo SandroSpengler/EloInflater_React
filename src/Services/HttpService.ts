@@ -11,8 +11,8 @@ let refresh: string = "refresh/";
 
 if (process.env.NODE_ENV === "development") {
   protocol = "http://";
-  genericUrl = "eloinflater.localhost/api/";
-  // genericUrl = "localhost:5000/api/";
+  // genericUrl = "eloinflater.localhost/api/";
+  genericUrl = "localhost:5000/api/";
 } else {
   protocol = "https://";
   genericUrl = "eloinflater.axfert.com/api/";
@@ -103,10 +103,39 @@ const updateSummonerData = async (summonerName: string): Promise<LeaguePlayer[]>
   }
 };
 
+/**
+ * @param {string}  puuid - Name of the Summoner tha tneeds to be updated
+
+ */
+const updateSummonerInflationByPUUID = async (puuid: string): Promise<LeaguePlayer[]> => {
+  // queueType challenger, grandmaster, master
+  // queueMode
+
+  try {
+    const request = axios.get(`${buildBaseUrl(refresh, "summoner/byPUUID")}${puuid}`);
+
+    const response = await request;
+
+    return await response.data.result;
+  } catch (error: any | AxiosError) {
+    if (axios.isAxiosError(error)) {
+      // console.log(error);
+    }
+
+    throw error;
+  }
+};
+
 const buildBaseUrl = (action: string, endpointUrl: string): string => {
   let completeUrl = `${protocol}${genericUrl}${action}${endpointUrl}/`;
 
   return completeUrl;
 };
 
-export { getSummonerByName, getPlayerByLeague, getMatchesBySummonerName, updateSummonerData };
+export {
+  getSummonerByName,
+  getPlayerByLeague,
+  getMatchesBySummonerName,
+  updateSummonerData,
+  updateSummonerInflationByPUUID,
+};
