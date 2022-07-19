@@ -41,11 +41,10 @@ function SummonerSummary(props: any) {
   const [summonerCanBeUpdated, setsummonerCanBeUpdated] = useState(true);
 
   // Counters
-  const [exhaustCount, setexhaustCount] = useState<number | undefined>(0);
-  const [exhaustCastedCount, setexhaustCastedCount] = useState<number | undefined>(0);
-  const [tabisCount, setTabisCount] = useState<number | undefined>(0);
-  const [zhonaysCount, setzhonaysCount] = useState<number | undefined>(0);
-  const [zhonaysCastedCount, setzhonaysCastedCount] = useState<number | undefined>(0);
+  const [exhaustCount, setexhaustCount] = useState<number>(0);
+  const [exhaustCastedCount, setexhaustCastedCount] = useState<number>(0);
+  const [tabisCount, setTabisCount] = useState<number>(0);
+  const [zhonaysCount, setzhonaysCount] = useState<number>(0);
 
   const fetchSummonerData = async (summonerName: string) => {
     let summoner: Summoner;
@@ -65,8 +64,6 @@ function SummonerSummary(props: any) {
   useEffect(() => {
     if (summonerName) {
       fetchSummonerData(summonerName);
-
-      // calcualteTabisAndExhaust();
     }
   }, []);
 
@@ -90,7 +87,6 @@ function SummonerSummary(props: any) {
         await fetchSummonerData(summoner.name);
       }
     } catch (error: any) {
-      console.log(error);
       updateSummonerInflationByPUUID(summoner!.puuid);
 
       await fetchSummonerData(summoner!.name);
@@ -115,8 +111,6 @@ function SummonerSummary(props: any) {
         alert("Update failed");
       }
     } finally {
-      //   calcualteTabisAndExhaust();
-
       await setSummonerIsUpdating(false);
     }
   };
@@ -147,17 +141,33 @@ function SummonerSummary(props: any) {
   };
 
   const showSummonerInformation = () => {
-    if (summoner) {
-      let SummonerInformationString: string = "";
+    if (summoner)
+      return (
+        <Typography
+          component="div"
+          variant="h6"
+          fontSize={14}
+          padding={"3px"}
+          color="text.primary"
+        >
+          {summoner.rankSolo ? summoner.rankSolo : "Rank: n/a"}
+          &nbsp;
+          {summoner.rank ? summoner.rank : ""}
+          <br />
+          W: {summoner.wins ? summoner.wins : "n/a"}
+          &nbsp; L: {summoner.losses ? summoner.losses : "n/a"}
+        </Typography>
+      );
+  };
 
-      SummonerInformationString = `${summoner.rankSolo ? summoner.rankSolo : "Rank: n/a"} ${
-        summoner.rank ? summoner.rank : ""
-      } W: ${summoner.wins ? summoner.wins : "n/a"} L: ${summoner.losses ? summoner.losses : "n/a"}`;
+  const calculateSummonerMatches = (): string => {
+    if (summoner === undefined) return "n/a";
 
-      return SummonerInformationString;
-    }
+    console.log(summoner);
 
-    return "wow";
+    return `${
+      summoner.uninflatedMatchList.length + summoner.inflatedMatchList.length
+    }`;
   };
 
   return (
@@ -173,17 +183,27 @@ function SummonerSummary(props: any) {
               ></Avatar>
             </div>
             <div className="InformationText">
-              <Typography component="div" variant="h5" fontSize={22} padding={"3px"} color="text.primary">
+              <Typography
+                component="div"
+                variant="h5"
+                fontSize={22}
+                padding={"3px"}
+                color="text.primary"
+              >
                 {summoner?.name}
               </Typography>
 
-              <Typography component="div" variant="h6" fontSize={12} padding={"3px"} color="text.primary">
+              <Typography
+                component="div"
+                variant="h6"
+                fontSize={12}
+                padding={"3px"}
+                color="text.primary"
+              >
                 Last Updated: {displayDate(summoner?.lastMatchUpdate)}
               </Typography>
 
-              <Typography component="div" variant="h6" fontSize={14} padding={"3px"} color="text.primary">
-                {showSummonerInformation()}
-              </Typography>
+              {showSummonerInformation()}
 
               <div>{showUpdateButtonOrSpinner()}</div>
             </div>
@@ -197,70 +217,195 @@ function SummonerSummary(props: any) {
 
         <Grid item md={5} lg={4}>
           <Paper className="InformationPaper">
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
-              <Typography component="div" variant="h6" fontSize={20} color="text.primary">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                component="div"
+                variant="h6"
+                fontSize={20}
+                color="text.primary"
+              >
                 Matches Checked
               </Typography>
-              <Typography component="div" variant="h6" fontSize={20} color="text.primary">
-                {summoner?.matchList?.length ? summoner.matchList.length : "n/a"}
+              <Typography
+                component="div"
+                variant="h6"
+                fontSize={20}
+                color="text.primary"
+              >
+                {calculateSummonerMatches()}
               </Typography>
             </div>
           </Paper>
           <Paper className="InflationStats">
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                component="div"
+                variant="h6"
+                fontSize={16}
+                color="text.primary"
+              >
                 Exhaust Picked
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+              <Typography
+                component="div"
+                variant="subtitle1"
+                fontSize={16}
+                color="text.primary"
+              >
                 {exhaustCount ? exhaustCount : "n/a"}
               </Typography>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                component="div"
+                variant="h6"
+                fontSize={16}
+                color="text.primary"
+                paddingTop={2}
+              >
                 Casted
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
+              <Typography
+                component="div"
+                variant="subtitle1"
+                fontSize={16}
+                color="text.primary"
+                paddingTop={2}
+              >
                 {exhaustCastedCount ? exhaustCastedCount : "n/a"}
               </Typography>
             </div>
           </Paper>
           <Paper className="InflationStats">
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                component="div"
+                variant="h6"
+                fontSize={16}
+                color="text.primary"
+              >
                 Tabis Abused
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+              <Typography
+                component="div"
+                variant="subtitle1"
+                fontSize={16}
+                color="text.primary"
+              >
                 {tabisCount ? tabisCount : "n/a"}
               </Typography>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                component="div"
+                variant="h6"
+                fontSize={16}
+                color="text.primary"
+                paddingTop={2}
+              >
                 ---
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
+              <Typography
+                component="div"
+                variant="subtitle1"
+                fontSize={16}
+                color="text.primary"
+                paddingTop={2}
+              >
                 --
               </Typography>
             </div>
           </Paper>
           <Paper className="InflationStats">
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                component="div"
+                variant="h6"
+                fontSize={16}
+                color="text.primary"
+              >
                 {"Zhonya's bought"}
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+              <Typography
+                component="div"
+                variant="subtitle1"
+                fontSize={16}
+                color="text.primary"
+              >
                 {zhonaysCount ? zhonaysCount : "n/a"}
               </Typography>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                alignItems: "center",
+              }}
+            >
+              {/* <Typography
+                component="div"
+                variant="h6"
+                fontSize={16}
+                color="text.primary"
+                paddingTop={2}
+              >
                 Casted
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
+              <Typography
+                component="div"
+                variant="subtitle1"
+                fontSize={16}
+                color="text.primary"
+                paddingTop={2}
+              >
                 {summoner?.matchList ? "n/a" : "n/a"}
-              </Typography>
+              </Typography> */}
             </div>
           </Paper>
         </Grid>
