@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-import { LeaguePlayer } from "../Models/LeaguePlayer";
 import { MatchData } from "../Models/MatchData";
 import { Summoner } from "../Models/Summoner";
 // only change by Region
@@ -20,9 +19,7 @@ if (process.env.NODE_ENV === "development") {
 
 const getSummonerByName = async (name: string): Promise<Summoner> => {
   try {
-    const request = axios.get<Summoner, any>(
-      `${buildBaseUrl(data, "summoner")}${name}`
-    );
+    const request = axios.get<Summoner, any>(`${buildBaseUrl(data, "summoner")}${name}`);
 
     const response = await request;
 
@@ -40,96 +37,12 @@ const getSummonerByName = async (name: string): Promise<Summoner> => {
  * @param {string}  queueType - The Division of the Players e.g. Master
  * @param {string}  queueMode - The Mode of the Gameplay e.g. rankedsolo
  */
-const getPlayerByLeague = async (
-  queueType: string,
-  queueMode: string
-): Promise<LeaguePlayer[]> => {
-  // queueType challenger, grandmaster, master
-  // queueMode
-
-  try {
-    const request = axios.get(
-      `${buildBaseUrl(data, "league")}${queueType}/${queueMode}`
-    );
-
-    const response = await request;
-
-    return await response.data.result;
-  } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      // console.log(error);
-    }
-
-    throw error;
-  }
-};
-
-/**
- * @param {string}  queueType - The Division of the Players e.g. Master
- * @param {string}  queueMode - The Mode of the Gameplay e.g. rankedsolo
- */
-const getMatchesBySummonerName = async (
-  summonerName: string
-): Promise<MatchData[]> => {
+const getMatchesBySummonerName = async (summonerName: string): Promise<MatchData[]> => {
   // queueType challenger, grandmaster, master
   // queueMode
 
   try {
     const request = axios.get(`${buildBaseUrl(data, "match")}${summonerName}`);
-
-    const response = await request;
-
-    return await response.data.result;
-  } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      // console.log(error);
-    }
-
-    throw error;
-  }
-};
-
-/**
- * @param {string}  name - Name of the Summoner tha tneeds to be updated
-
- */
-const updateSummonerData = async (
-  summonerName: string
-): Promise<LeaguePlayer[]> => {
-  // queueType challenger, grandmaster, master
-  // queueMode
-
-  try {
-    const request = axios.get(
-      `${buildBaseUrl(refresh, "summoner/byName")}${summonerName}`
-    );
-
-    const response = await request;
-
-    return await response.data.result;
-  } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      // console.log(error);
-    }
-
-    throw error;
-  }
-};
-
-/**
- * @param {string}  puuid - Name of the Summoner tha tneeds to be updated
-
- */
-const updateSummonerInflationByPUUID = async (
-  puuid: string
-): Promise<LeaguePlayer[]> => {
-  // queueType challenger, grandmaster, master
-  // queueMode
-
-  try {
-    const request = axios.get(
-      `${buildBaseUrl(refresh, "summoner/byPUUID")}${puuid}`
-    );
 
     const response = await request;
 
@@ -149,10 +62,4 @@ const buildBaseUrl = (action: string, endpointUrl: string): string => {
   return completeUrl;
 };
 
-export {
-  getSummonerByName,
-  getPlayerByLeague,
-  getMatchesBySummonerName,
-  updateSummonerData,
-  updateSummonerInflationByPUUID,
-};
+export { getSummonerByName, getMatchesBySummonerName };

@@ -50,6 +50,12 @@ const SearchBar = (props: {}) => {
     );
   };
 
+  const keyEvaluateBoardInputs = async (e: any) => {
+    if (e.keyCode !== 13) return;
+
+    await validateSummonerAndNavigate();
+  };
+
   return (
     <div style={{ justifyContent: "center", display: "flex" }}>
       <TextField
@@ -59,6 +65,9 @@ const SearchBar = (props: {}) => {
         variant="outlined"
         style={{ width: 800 }}
         color="primary"
+        onKeyDown={(e) => {
+          keyEvaluateBoardInputs(e);
+        }}
         onChange={(e) => {
           setSearchSummonerName(e.target.value);
         }}

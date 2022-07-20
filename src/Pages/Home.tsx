@@ -18,24 +18,10 @@ import {
 
 import SearchBar from "../Components/Tools/SearchBar";
 
-import { LeaguePlayer } from "../Models/LeaguePlayer";
 import { Summoner } from "../Models/Summoner";
-
-import { getPlayerByLeague } from "../Services/HttpService";
 
 const Home = (props: any) => {
   const [summoner, setSummoner] = useState<Summoner>();
-  const [challengerPlayerList, setchallengerPlayerList] = useState<LeaguePlayer[]>();
-
-  const fetchPlayersByLeague = async () => {
-    try {
-      let challengerPlayerList = await getPlayerByLeague("challenger", "rankedsolo");
-
-      setchallengerPlayerList(challengerPlayerList);
-
-      console.log(challengerPlayerList);
-    } catch (error) {}
-  };
 
   // Second Parameter tells the hook when to run e.g. the name changes
 

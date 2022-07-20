@@ -7,17 +7,17 @@ export interface Summoner {
   profileIconId: number;
   revisionDate: number;
   summonerLevel: number;
-  leaguePoints?: number;
-  rank?: string;
-  rankSolo?: string;
-  flexSolo?: string;
-  flextt?: string;
-  wins?: number;
-  losses?: number;
-  veteran?: boolean;
-  inactive?: boolean;
-  freshBlood?: boolean;
-  hotStreak?: boolean;
+  leaguePoints: number;
+  rank: string;
+  rankSolo: string;
+  flexSolo: string;
+  flextt: string;
+  wins: number;
+  losses: number;
+  veteran: boolean;
+  inactive: boolean;
+  freshBlood: boolean;
+  hotStreak: boolean;
   uninflatedMatchList: string[];
   inflatedMatchList: string[];
   exhaustCount: number;
@@ -27,6 +27,6 @@ export interface Summoner {
   zhonaysCastCount: number;
   lastRankUpdate: number;
   lastMatchUpdate: number;
-  createdAt?: number;
-  updatedAt?: number;
+  createdAt: number;
+  updatedAt: number;
 }

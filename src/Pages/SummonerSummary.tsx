@@ -20,16 +20,11 @@ import { useParams } from "react-router-dom";
 import { MatchData, Participant } from "../Models/MatchData";
 import { Summoner } from "../Models/Summoner";
 
-import {
-  getMatchesBySummonerName,
-  getSummonerByName,
-  updateSummonerData,
-  updateSummonerInflationByPUUID,
-} from "../Services/HttpService";
+import { getMatchesBySummonerName, getSummonerByName } from "../Services/HttpService";
 
 import "./SummonerSummary.css";
 
-function SummonerSummary(props: any) {
+function SummonerSummary() {
   let { region, summonerName } = useParams();
 
   // Data
@@ -82,12 +77,12 @@ function SummonerSummary(props: any) {
       if (summoner) {
         await setSummonerIsUpdating(true);
 
-        await updateSummonerData(summoner.name);
+        // await updateSummonerData(summoner.name);
 
         await fetchSummonerData(summoner.name);
       }
     } catch (error: any) {
-      updateSummonerInflationByPUUID(summoner!.puuid);
+      // updateSummonerInflationByPUUID(summoner!.puuid);
 
       await fetchSummonerData(summoner!.name);
 
@@ -143,13 +138,7 @@ function SummonerSummary(props: any) {
   const showSummonerInformation = () => {
     if (summoner)
       return (
-        <Typography
-          component="div"
-          variant="h6"
-          fontSize={14}
-          padding={"3px"}
-          color="text.primary"
-        >
+        <Typography component="div" variant="h6" fontSize={14} padding={"3px"} color="text.primary">
           {summoner.rankSolo ? summoner.rankSolo : "Rank: n/a"}
           &nbsp;
           {summoner.rank ? summoner.rank : ""}
@@ -163,11 +152,13 @@ function SummonerSummary(props: any) {
   const calculateSummonerMatches = (): string => {
     if (summoner === undefined) return "n/a";
 
-    console.log(summoner);
+    return `${summoner.uninflatedMatchList.length + summoner.inflatedMatchList.length}`;
+  };
 
-    return `${
-      summoner.uninflatedMatchList.length + summoner.inflatedMatchList.length
-    }`;
+  const displayInflatedStats = (inflatedStat: number): string => {
+    if (inflatedStat === undefined) return "n/a";
+
+    return `${inflatedStat}`;
   };
 
   return (
@@ -183,23 +174,11 @@ function SummonerSummary(props: any) {
               ></Avatar>
             </div>
             <div className="InformationText">
-              <Typography
-                component="div"
-                variant="h5"
-                fontSize={22}
-                padding={"3px"}
-                color="text.primary"
-              >
+              <Typography component="div" variant="h5" fontSize={22} padding={"3px"} color="text.primary">
                 {summoner?.name}
               </Typography>
 
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={12}
-                padding={"3px"}
-                color="text.primary"
-              >
+              <Typography component="div" variant="h6" fontSize={12} padding={"3px"} color="text.primary">
                 Last Updated: {displayDate(summoner?.lastMatchUpdate)}
               </Typography>
 
@@ -225,20 +204,10 @@ function SummonerSummary(props: any) {
                 alignItems: "center",
               }}
             >
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={20}
-                color="text.primary"
-              >
+              <Typography component="div" variant="h6" fontSize={20} color="text.primary">
                 Matches Checked
               </Typography>
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={20}
-                color="text.primary"
-              >
+              <Typography component="div" variant="h6" fontSize={20} color="text.primary">
                 {calculateSummonerMatches()}
               </Typography>
             </div>
@@ -252,21 +221,11 @@ function SummonerSummary(props: any) {
                 alignItems: "center",
               }}
             >
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={16}
-                color="text.primary"
-              >
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
                 Exhaust Picked
               </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                fontSize={16}
-                color="text.primary"
-              >
-                {exhaustCount ? exhaustCount : "n/a"}
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+                {displayInflatedStats(exhaustCount)}
               </Typography>
             </div>
 
@@ -278,23 +237,11 @@ function SummonerSummary(props: any) {
                 alignItems: "center",
               }}
             >
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={16}
-                color="text.primary"
-                paddingTop={2}
-              >
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
                 Casted
               </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                fontSize={16}
-                color="text.primary"
-                paddingTop={2}
-              >
-                {exhaustCastedCount ? exhaustCastedCount : "n/a"}
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
+                {displayInflatedStats(exhaustCastedCount)}
               </Typography>
             </div>
           </Paper>
@@ -307,21 +254,11 @@ function SummonerSummary(props: any) {
                 alignItems: "center",
               }}
             >
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={16}
-                color="text.primary"
-              >
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
                 Tabis Abused
               </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                fontSize={16}
-                color="text.primary"
-              >
-                {tabisCount ? tabisCount : "n/a"}
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+                {displayInflatedStats(tabisCount)}
               </Typography>
             </div>
 
@@ -333,22 +270,10 @@ function SummonerSummary(props: any) {
                 alignItems: "center",
               }}
             >
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={16}
-                color="text.primary"
-                paddingTop={2}
-              >
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
                 ---
               </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                fontSize={16}
-                color="text.primary"
-                paddingTop={2}
-              >
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
                 --
               </Typography>
             </div>
@@ -362,21 +287,11 @@ function SummonerSummary(props: any) {
                 alignItems: "center",
               }}
             >
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={16}
-                color="text.primary"
-              >
+              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
                 {"Zhonya's bought"}
               </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                fontSize={16}
-                color="text.primary"
-              >
-                {zhonaysCount ? zhonaysCount : "n/a"}
+              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+                {displayInflatedStats(zhonaysCount)}
               </Typography>
             </div>
 
