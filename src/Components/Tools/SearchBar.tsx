@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Button, IconButton, TextField } from "@mui/material";
+import { Button, CircularProgress, IconButton, TextField } from "@mui/material";
 
 import { getSummonerByName } from "../../Services/HttpService";
 import axios, { AxiosError } from "axios";
 
 const SearchBar = (props: {}) => {
-  const [searchSummonerName, setSearchSummonerName] = useState("");
+  const [searchSummonerName, setSearchSummonerName] = useState<string>("");
+  const [requestingSummoner, setRequestingSummoner] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const validateSummonerAndNavigate = async () => {
     let path = `/data/summoner/euw/`;
+
+    setRequestingSummoner(true);
 
     try {
       const summoner = await getSummonerByName(searchSummonerName);
@@ -20,6 +23,7 @@ const SearchBar = (props: {}) => {
       navigate(path + summoner.name);
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        setRequestingSummoner(false);
         let axiosError: AxiosError = error;
 
         if (axiosError.response?.status === 404) {
@@ -71,7 +75,7 @@ const SearchBar = (props: {}) => {
         onChange={(e) => {
           setSearchSummonerName(e.target.value);
         }}
-        InputProps={{ endAdornment: <SearchButton /> }}
+        InputProps={{ endAdornment: requestingSummoner ? <CircularProgress color="secondary" /> : <SearchButton /> }}
       />
     </div>
   );

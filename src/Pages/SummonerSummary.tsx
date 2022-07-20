@@ -156,6 +156,10 @@ function SummonerSummary() {
   };
 
   const displayInflatedStats = (inflatedStat: number): string => {
+    if (summoner === undefined) return "n/a";
+
+    if (summoner.inflatedMatchList.length + summoner.uninflatedMatchList.length === 0) return "n/a";
+
     if (inflatedStat === undefined) return "n/a";
 
     return `${inflatedStat}`;
