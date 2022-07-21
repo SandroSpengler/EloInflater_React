@@ -135,6 +135,9 @@ function SummonerSummary() {
     return <div>{elementToShow}</div>;
   };
 
+  /**
+   * Displays the SummonerInformation
+   */
   const showSummonerInformation = () => {
     if (summoner)
       return (
@@ -142,6 +145,8 @@ function SummonerSummary() {
           {summoner.rankSolo ? summoner.rankSolo : "Rank: n/a"}
           &nbsp;
           {summoner.rank ? summoner.rank : ""}
+          <br />
+          {summoner.leaguePoints ? `${summoner.leaguePoints} LP ` : "n/a"}
           <br />
           W: {summoner.wins ? summoner.wins : "n/a"}
           &nbsp; L: {summoner.losses ? summoner.losses : "n/a"}
