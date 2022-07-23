@@ -2,26 +2,64 @@ import React from "react";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, TextField } from "@mui/material";
 import { createTheme, Theme } from "@mui/material/styles";
-import { blue, blueGrey, deepPurple, green, purple } from "@mui/material/colors";
+import { amber, blue, blueGrey, deepOrange, deepPurple, green, grey, indigo, purple } from "@mui/material/colors";
 
 import "./App.css";
 
 import Home from "./Pages/Home";
 import Header from "./Components/Layout/Header";
 import SummonerSummary from "./Pages/SummonerSummary";
+import { ColorPartial } from "@mui/material/styles/createPalette";
 
-const theme: Theme = createTheme({
+const primary = "#1D1D42";
+const secondary = "#19857b";
+const background = "#161616";
+const ternary = "#373767";
+const accent = "0A0A2B";
+
+const theme = createTheme({
   palette: {
-    mode: "dark",
-    // primary: {
-    //   main: "#25416e",
-    // },
-    primary: blueGrey,
-    secondary: deepPurple,
+    background: {
+      default: background,
+    },
+    primary: {
+      main: primary,
+    },
+    secondary: {
+      main: secondary,
+    },
+  },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          background: ternary,
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          background: ternary,
+          borderRadius: "8px",
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "white",
+          fontSize: "1.1em",
+        },
+      },
+    },
   },
   typography: {
+    allVariants: {
+      color: "white",
+    },
     button: {
       textTransform: "none",
     },

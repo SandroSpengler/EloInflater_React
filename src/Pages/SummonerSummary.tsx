@@ -1,23 +1,10 @@
-import {
-  Avatar,
-  Button,
-  Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Paper,
-  Typography,
-  LinearProgress,
-  CircularProgress,
-  Box,
-} from "@mui/material";
-import { width } from "@mui/system";
+import { Avatar, Button, Grid, Paper, Typography, CircularProgress, Box } from "@mui/material";
+
 import axios, { AxiosError } from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MatchData, Participant } from "../Models/MatchData";
+
 import { Summoner } from "../Models/Summoner";
 
 import { getMatchesBySummonerName, getSummonerByName } from "../Services/HttpService";
@@ -120,8 +107,8 @@ function SummonerSummary() {
         <Button
           disabled={!summonerCanBeUpdated}
           variant="contained"
-          color="secondary"
-          size="medium"
+          color="primary"
+          size="large"
           style={{ marginTop: "10px", marginBottom: "10px" }}
           onClick={() => {
             updateSummoner();
@@ -141,7 +128,7 @@ function SummonerSummary() {
   const showSummonerInformation = () => {
     if (summoner)
       return (
-        <Typography component="div" variant="h6" fontSize={14} padding={"3px"} color="text.primary">
+        <Typography component="div" variant="h6" fontSize={14} padding={"3px"}>
           {summoner.rankSolo ? summoner.rankSolo : "Rank: n/a"}
           &nbsp;
           {summoner.rank ? summoner.rank : ""}
@@ -172,8 +159,8 @@ function SummonerSummary() {
 
   return (
     <div className="summonerPageWrapper">
-      <Grid container spacing={1} columns={12}>
-        <Grid item md={5} lg={4}>
+      <Grid container spacing={1.1} columns={12}>
+        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42" }}>
           <Paper className="InformationPaper">
             <div className={"SummonerIcon"}>
               <Avatar
@@ -183,11 +170,11 @@ function SummonerSummary() {
               ></Avatar>
             </div>
             <div className="InformationText">
-              <Typography component="div" variant="h5" fontSize={22} padding={"3px"} color="text.primary">
+              <Typography component="div" variant="h5" fontSize={22} padding={"3px"}>
                 {summoner?.name}
               </Typography>
 
-              <Typography component="div" variant="h6" fontSize={12} padding={"3px"} color="text.primary">
+              <Typography component="div" variant="h6" fontSize={12} padding={"3px"}>
                 Last Updated: {displayDate(summoner?.lastMatchUpdate)}
               </Typography>
 
@@ -197,13 +184,11 @@ function SummonerSummary() {
             </div>
           </Paper>
         </Grid>
-
         <Grid item md={7} lg={8}>
           <Paper></Paper>
         </Grid>
         <Box width="100%" />
-
-        <Grid item md={5} lg={4}>
+        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42" }}>
           <Paper className="InformationPaper">
             <div
               style={{
@@ -213,10 +198,10 @@ function SummonerSummary() {
                 alignItems: "center",
               }}
             >
-              <Typography component="div" variant="h6" fontSize={20} color="text.primary">
+              <Typography component="div" variant="h6" fontSize={20}>
                 Matches Checked
               </Typography>
-              <Typography component="div" variant="h6" fontSize={20} color="text.primary">
+              <Typography component="div" variant="h6" fontSize={20}>
                 {calculateSummonerMatches()}
               </Typography>
             </div>
@@ -230,10 +215,10 @@ function SummonerSummary() {
                 alignItems: "center",
               }}
             >
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
+              <Typography component="div" variant="h6" fontSize={16}>
                 Exhaust Picked
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+              <Typography component="div" variant="subtitle1" fontSize={16}>
                 {displayInflatedStats(exhaustCount)}
               </Typography>
             </div>
@@ -246,10 +231,10 @@ function SummonerSummary() {
                 alignItems: "center",
               }}
             >
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
+              <Typography component="div" variant="h6" fontSize={16} paddingTop={2}>
                 Casted
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
+              <Typography component="div" variant="subtitle1" fontSize={16} paddingTop={2}>
                 {displayInflatedStats(exhaustCastedCount)}
               </Typography>
             </div>
@@ -263,10 +248,10 @@ function SummonerSummary() {
                 alignItems: "center",
               }}
             >
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
+              <Typography component="div" variant="h6" fontSize={16}>
                 Tabis Abused
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+              <Typography component="div" variant="subtitle1" fontSize={16}>
                 {displayInflatedStats(tabisCount)}
               </Typography>
             </div>
@@ -279,10 +264,10 @@ function SummonerSummary() {
                 alignItems: "center",
               }}
             >
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary" paddingTop={2}>
+              <Typography component="div" variant="h6" fontSize={16} paddingTop={2}>
                 ---
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary" paddingTop={2}>
+              <Typography component="div" variant="subtitle1" fontSize={16} paddingTop={2}>
                 --
               </Typography>
             </div>
@@ -296,10 +281,10 @@ function SummonerSummary() {
                 alignItems: "center",
               }}
             >
-              <Typography component="div" variant="h6" fontSize={16} color="text.primary">
+              <Typography component="div" variant="h6" fontSize={16}>
                 {"Zhonya's bought"}
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} color="text.primary">
+              <Typography component="div" variant="subtitle1" fontSize={16}>
                 {displayInflatedStats(zhonaysCount)}
               </Typography>
             </div>
@@ -316,7 +301,7 @@ function SummonerSummary() {
                 component="div"
                 variant="h6"
                 fontSize={16}
-                color="text.primary"
+                
                 paddingTop={2}
               >
                 Casted
@@ -325,7 +310,7 @@ function SummonerSummary() {
                 component="div"
                 variant="subtitle1"
                 fontSize={16}
-                color="text.primary"
+                
                 paddingTop={2}
               >
                 {summoner?.matchList ? "n/a" : "n/a"}

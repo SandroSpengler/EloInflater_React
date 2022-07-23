@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Button, CircularProgress, IconButton, TextField } from "@mui/material";
+import { Button, CircularProgress, IconButton, Paper, TextField } from "@mui/material";
 
 import { getSummonerByName } from "../../Services/HttpService";
 import axios, { AxiosError } from "axios";
@@ -43,7 +43,7 @@ const SearchBar = (props: {}) => {
 
       <Button
         variant="contained"
-        color="secondary"
+        color="primary"
         size="small"
         onClick={() => {
           validateSummonerAndNavigate();
@@ -68,14 +68,16 @@ const SearchBar = (props: {}) => {
         value={searchSummonerName}
         variant="outlined"
         style={{ width: 800 }}
-        color="primary"
         onKeyDown={(e) => {
           keyEvaluateBoardInputs(e);
         }}
         onChange={(e) => {
           setSearchSummonerName(e.target.value);
         }}
-        InputProps={{ endAdornment: requestingSummoner ? <CircularProgress color="secondary" /> : <SearchButton /> }}
+        InputProps={{
+          endAdornment: requestingSummoner ? <CircularProgress color="secondary" /> : <SearchButton />,
+          style: { color: "white" },
+        }}
       />
     </div>
   );

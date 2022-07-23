@@ -1,7 +1,9 @@
 .InformationPaper {
   display: flex;
   max-width: 450px;
-  margin-bottom: 15px;
+
+  margin: 15px 15px 15px 15px;
+
   padding: 3%;
 }
 
@@ -12,7 +14,9 @@
 }
 
 .InflationStats {
-  margin-bottom: 15px;
-  padding: 3%;
   max-width: 450px;
+
+  margin: 15px 15px 15px 15px;
+
+  padding: 3%;
 }
