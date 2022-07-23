@@ -10,6 +10,7 @@ let refresh: string = "refresh/";
 
 if (process.env.NODE_ENV === "development") {
   protocol = "https://";
+  // protocol = "http://";
   genericUrl = "eloinflater.axfert.com/api/";
   // genericUrl = "localhost:5000/api/";
 } else {
@@ -34,24 +35,24 @@ const getSummonerByName = async (name: string): Promise<Summoner> => {
 };
 
 /**
- * @param {string}  queueType - The Division of the Players e.g. Master
- * @param {string}  queueMode - The Mode of the Gameplay e.g. rankedsolo
+ * Update Summoner Matches and Information
+ *
+ *
  */
-const getMatchesBySummonerName = async (summonerName: string): Promise<MatchData[]> => {
-  // queueType challenger, grandmaster, master
-  // queueMode
-
+const putUpdateMatchesBySummonerId = async (
+  summonerId: string,
+): Promise<{
+  success: boolean;
+  result: Summoner | null;
+  error: null | string;
+}> => {
   try {
-    const request = axios.get(`${buildBaseUrl(data, "match")}${summonerName}`);
+    const request = axios.put(`${buildBaseUrl(refresh, "match")}${summonerId}`);
 
     const response = await request;
 
     return await response.data.result;
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      // console.log(error);
-    }
-
     throw error;
   }
 };
@@ -62,4 +63,4 @@ const buildBaseUrl = (action: string, endpointUrl: string): string => {
   return completeUrl;
 };
 
-export { getSummonerByName, getMatchesBySummonerName };
+export { getSummonerByName, putUpdateMatchesBySummonerId };

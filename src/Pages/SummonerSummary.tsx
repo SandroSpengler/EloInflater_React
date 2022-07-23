@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 
 import { Summoner } from "../Models/Summoner";
 
-import { getMatchesBySummonerName, getSummonerByName } from "../Services/HttpService";
+import { putUpdateMatchesBySummonerId, getSummonerByName } from "../Services/HttpService";
 
 import "./SummonerSummary.css";
 
@@ -21,6 +21,9 @@ function SummonerSummary() {
   // Interface
   const [summonerIsUpdating, setSummonerIsUpdating] = useState<Boolean>(false);
   const [summonerCanBeUpdated, setsummonerCanBeUpdated] = useState(true);
+
+  const [displayNotification, setDisplayNotification] = useState<boolean>(false);
+  const [notificationMessage, setNotificationMessage] = useState<string>("");
 
   // Counters
   const [exhaustCount, setexhaustCount] = useState<number>(0);
@@ -61,13 +64,23 @@ function SummonerSummary() {
 
   const updateSummoner = async () => {
     try {
-      if (summoner) {
-        await setSummonerIsUpdating(true);
-
-        // await updateSummonerData(summoner.name);
-
-        await fetchSummonerData(summoner.name);
+      if (summoner === undefined) {
+        setDisplayNotification(true);
+        setNotificationMessage("Summoner not valid");
+        return;
       }
+
+      await setSummonerIsUpdating(true);
+
+      const updatedSummoner = (await putUpdateMatchesBySummonerId(summoner.summonerId)).result;
+
+      if (summoner === null) {
+        setDisplayNotification(true);
+        setNotificationMessage("An unexpected error has occurred");
+        return;
+      }
+
+      await setSummoner(updatedSummoner as Summoner);
     } catch (error: any) {
       // updateSummonerInflationByPUUID(summoner!.puuid);
 
@@ -160,7 +173,7 @@ function SummonerSummary() {
   return (
     <div className="summonerPageWrapper">
       <Grid container spacing={1.1} columns={12}>
-        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42" }}>
+        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}>
           <Paper className="InformationPaper">
             <div className={"SummonerIcon"}>
               <Avatar
@@ -188,7 +201,7 @@ function SummonerSummary() {
           <Paper></Paper>
         </Grid>
         <Box width="100%" />
-        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42" }}>
+        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}>
           <Paper className="InformationPaper">
             <div
               style={{
@@ -199,7 +212,7 @@ function SummonerSummary() {
               }}
             >
               <Typography component="div" variant="h6" fontSize={20}>
-                Matches Checked
+                Matches checked
               </Typography>
               <Typography component="div" variant="h6" fontSize={20}>
                 {calculateSummonerMatches()}
@@ -216,7 +229,7 @@ function SummonerSummary() {
               }}
             >
               <Typography component="div" variant="h6" fontSize={16}>
-                Exhaust Picked
+                Exhaust picked
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16}>
                 {displayInflatedStats(exhaustCount)}
@@ -249,7 +262,7 @@ function SummonerSummary() {
               }}
             >
               <Typography component="div" variant="h6" fontSize={16}>
-                Tabis Abused
+                Tabis bought
               </Typography>
               <Typography component="div" variant="subtitle1" fontSize={16}>
                 {displayInflatedStats(tabisCount)}

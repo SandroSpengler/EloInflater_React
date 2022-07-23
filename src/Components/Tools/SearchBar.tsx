@@ -1,18 +1,28 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Button, CircularProgress, IconButton, Paper, TextField } from "@mui/material";
+import { Alert, Button, CircularProgress, IconButton, Paper, Snackbar, TextField } from "@mui/material";
 
 import { getSummonerByName } from "../../Services/HttpService";
 import axios, { AxiosError } from "axios";
 
-const SearchBar = (props: {}) => {
+const SearchBar = (props: { styles: React.CSSProperties }) => {
   const [searchSummonerName, setSearchSummonerName] = useState<string>("");
   const [requestingSummoner, setRequestingSummoner] = useState<boolean>(false);
+
+  const [displayError, setDisplayError] = useState<boolean>(false);
+  const [errorNotificationMessage, setErrorNotificationMessage] = useState<string>("");
 
   const navigate = useNavigate();
 
   const validateSummonerAndNavigate = async () => {
+    if (searchSummonerName === "" || searchSummonerName === undefined) {
+      setDisplayError(true);
+      setErrorNotificationMessage("Please provide a Summoner Name");
+
+      return;
+    }
+
     let path = `/data/summoner/euw/`;
 
     setRequestingSummoner(true);
@@ -20,17 +30,29 @@ const SearchBar = (props: {}) => {
     try {
       const summoner = await getSummonerByName(searchSummonerName);
 
-      navigate(path + summoner.name);
-    } catch (error) {
+      await navigate(path + summoner.name);
+      location.reload();
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         setRequestingSummoner(false);
         let axiosError: AxiosError = error;
 
         if (axiosError.response?.status === 404) {
-          alert("Summoner does not Exist");
           // navigate("/data/summoner/notFound");
+          setDisplayError(true);
+          setErrorNotificationMessage("No Summoner with that name was found");
+          return;
         }
+
+        setDisplayError(true);
+        setErrorNotificationMessage("Server currently not reachable");
+        return;
       }
+
+      setDisplayError(true);
+      setErrorNotificationMessage(`Error ${error.message}`);
+    } finally {
+      setRequestingSummoner(false);
     }
   };
 
@@ -61,13 +83,13 @@ const SearchBar = (props: {}) => {
   };
 
   return (
-    <div style={{ justifyContent: "center", display: "flex" }}>
+    <div style={{ justifyContent: "center", display: "flex", alignItems: "center" }}>
       <TextField
         id="summonerName"
         label="Summoner Name"
         value={searchSummonerName}
         variant="outlined"
-        style={{ width: 800 }}
+        style={props.styles}
         onKeyDown={(e) => {
           keyEvaluateBoardInputs(e);
         }}
@@ -76,9 +98,14 @@ const SearchBar = (props: {}) => {
         }}
         InputProps={{
           endAdornment: requestingSummoner ? <CircularProgress color="secondary" /> : <SearchButton />,
-          style: { color: "white" },
+          style: { color: "white", alignItems: "center" },
         }}
       />
+      <Snackbar open={displayError} autoHideDuration={6000} onClose={() => setDisplayError(false)}>
+        <Alert onClose={() => setDisplayError(false)} severity="error">
+          {errorNotificationMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
