@@ -20,7 +20,9 @@ if (process.env.NODE_ENV === "development") {
 
 const getSummonerByName = async (name: string): Promise<Summoner> => {
   try {
-    const request = axios.get<Summoner, any>(`${buildBaseUrl(data, "summoner")}${name}`);
+    const request = axios.get<Summoner, any>(
+      `${buildBaseUrl(data, "summoner")}${name}`
+    );
 
     const response = await request;
 
@@ -40,7 +42,7 @@ const getSummonerByName = async (name: string): Promise<Summoner> => {
  *
  */
 const putUpdateMatchesBySummonerId = async (
-  summonerId: string,
+  summonerId: string
 ): Promise<{
   success: boolean;
   result: Summoner | null;
@@ -51,7 +53,7 @@ const putUpdateMatchesBySummonerId = async (
 
     const response = await request;
 
-    return await response.data.result;
+    return await response.data;
   } catch (error: any | AxiosError) {
     throw error;
   }
