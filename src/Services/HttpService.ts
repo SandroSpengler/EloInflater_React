@@ -1,32 +1,18 @@
 import axios, { AxiosError } from "axios";
 import { MatchData } from "../Models/MatchData";
 import { Summoner } from "../Models/Summoner";
-// only change by Region
 
-let protocol: string;
-let genericUrl: string;
+// only change by Region
 let data: string = "data/";
 let refresh: string = "refresh/";
 
-if (process.env.NODE_ENV === "development") {
-  protocol = "https://";
-  // protocol = "http://";
-  genericUrl = "eloinflater.axfert.com/api/";
-  // genericUrl = "localhost:5000/api/";
-} else {
-  protocol = "https://";
-  genericUrl = "eloinflater.axfert.com/api/";
-}
-
 const getSummonerByName = async (name: string): Promise<Summoner> => {
   try {
-    const request = axios.get<Summoner, any>(
-      `${buildBaseUrl(data, "summoner")}${name}`
-    );
+    const request = axios.get<Summoner, any>(`${buildBaseUrl(data, "summoner")}${name}`);
 
     const response = await request;
 
-    return await response.data.result;
+    return await response.data;
   } catch (error: any | AxiosError) {
     if (axios.isAxiosError(error)) {
       // console.log(error);
@@ -42,7 +28,7 @@ const getSummonerByName = async (name: string): Promise<Summoner> => {
  *
  */
 const putUpdateMatchesBySummonerId = async (
-  summonerId: string
+  summonerId: string,
 ): Promise<{
   success: boolean;
   result: Summoner | null;
@@ -60,7 +46,13 @@ const putUpdateMatchesBySummonerId = async (
 };
 
 const buildBaseUrl = (action: string, endpointUrl: string): string => {
-  let completeUrl = `${protocol}${genericUrl}${action}${endpointUrl}/`;
+  if (process.env.REACT_APP_BASE_URL === undefined) {
+    throw new Error("Please provide a valid URL");
+  }
+
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+
+  let completeUrl = `${baseUrl}/api/${action}${endpointUrl}/`;
 
   return completeUrl;
 };

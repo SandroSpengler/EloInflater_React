@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Alert, Button, CircularProgress, IconButton, Paper, Snackbar, TextField } from "@mui/material";
+import { Alert, Button, CircularProgress, Snackbar, TextField } from "@mui/material";
+
+import SearchIcon from "@mui/icons-material/Search";
 
 import { getSummonerByName } from "../../Services/HttpService";
 import axios, { AxiosError } from "axios";
@@ -16,6 +18,8 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
   const navigate = useNavigate();
 
   const validateSummonerAndNavigate = async () => {
+    const path = `/data/summoner/euw/`;
+
     if (searchSummonerName === "" || searchSummonerName === undefined) {
       setDisplayError(true);
       setErrorNotificationMessage("Please provide a Summoner Name");
@@ -23,14 +27,13 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
       return;
     }
 
-    let path = `/data/summoner/euw/`;
-
     setRequestingSummoner(true);
 
     try {
       const summoner = await getSummonerByName(searchSummonerName);
 
       await navigate(path + summoner.name);
+
       location.reload();
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
@@ -58,21 +61,18 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
 
   const SearchButton = () => {
     return (
-      //   <IconButton
-      //   >
-      //     <SearchIcon />
-      //   </IconButton>
-
-      <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        onClick={() => {
-          validateSummonerAndNavigate();
-        }}
-      >
-        Search
-      </Button>
+      <React.Fragment>
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={() => {
+            validateSummonerAndNavigate();
+          }}
+        >
+          <SearchIcon />
+        </Button>
+      </React.Fragment>
     );
   };
 
@@ -97,7 +97,11 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
           setSearchSummonerName(e.target.value);
         }}
         InputProps={{
-          endAdornment: requestingSummoner ? <CircularProgress color="secondary" /> : <SearchButton />,
+          endAdornment: requestingSummoner ? (
+            <CircularProgress color="secondary" />
+          ) : (
+            <SearchButton />
+          ),
           style: { color: "white", alignItems: "center" },
         }}
       />
