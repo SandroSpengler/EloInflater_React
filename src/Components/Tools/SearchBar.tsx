@@ -17,7 +17,13 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
 
   const navigate = useNavigate();
 
-  const validateSummonerAndNavigate = async () => {
+  /**
+   * Requests the summoner from the server and navigates to the SummonerSummaryPage
+   * @async
+   *
+   * @void
+   */
+  const validateSummonerAndNavigate = async (): Promise<void> => {
     const path = `/data/summoner/euw/`;
 
     if (searchSummonerName === "" || searchSummonerName === undefined) {
@@ -36,30 +42,34 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
 
       location.reload();
     } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        setRequestingSummoner(false);
-        let axiosError: AxiosError = error;
-
-        if (axiosError.response?.status === 404) {
-          // navigate("/data/summoner/notFound");
-          setDisplayError(true);
-          setErrorNotificationMessage("No Summoner with that name was found");
-          return;
-        }
-
+      if (!axios.isAxiosError(error)) {
         setDisplayError(true);
-        setErrorNotificationMessage("Server currently not reachable");
+        setRequestingSummoner(false);
+        setErrorNotificationMessage(`Error ${error.message}`);
+      }
+
+      const axiosError: AxiosError = error;
+
+      if (axiosError.response?.status === 404) {
+        setDisplayError(true);
+        setErrorNotificationMessage("No Summoner with that name was found");
         return;
       }
 
       setDisplayError(true);
-      setErrorNotificationMessage(`Error ${error.message}`);
+      setErrorNotificationMessage("Server currently not reachable");
+      return;
     } finally {
       setRequestingSummoner(false);
     }
   };
 
-  const SearchButton = () => {
+  /**
+   * SearchBar UI Element
+   *
+   * @returns The Searchbar
+   */
+  const SearchButton = (): JSX.Element => {
     return (
       <React.Fragment>
         <Button
@@ -76,8 +86,17 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
     );
   };
 
-  const keyEvaluateBoardInputs = async (e: any) => {
-    if (e.keyCode !== 13) return;
+  /**
+   * Allows user to trigger the search with the keyboard
+   * @async
+   *
+   * @param event Keyboard Event
+   * @void
+   */
+  const keyEvaluateBoardInputs = async (
+    event: React.KeyboardEvent<HTMLDivElement>,
+  ): Promise<void> => {
+    if (event.key !== "Enter") return;
 
     await validateSummonerAndNavigate();
   };
@@ -90,11 +109,11 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
         value={searchSummonerName}
         variant="outlined"
         style={props.styles}
-        onKeyDown={(e) => {
-          keyEvaluateBoardInputs(e);
+        onKeyDown={(event) => {
+          keyEvaluateBoardInputs(event);
         }}
-        onChange={(e) => {
-          setSearchSummonerName(e.target.value);
+        onChange={(event) => {
+          setSearchSummonerName(event.target.value);
         }}
         InputProps={{
           endAdornment: requestingSummoner ? (
@@ -105,6 +124,7 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
           style: { color: "white", alignItems: "center" },
         }}
       />
+
       <Snackbar open={displayError} autoHideDuration={6000} onClose={() => setDisplayError(false)}>
         <Alert onClose={() => setDisplayError(false)} severity="error">
           {errorNotificationMessage}
