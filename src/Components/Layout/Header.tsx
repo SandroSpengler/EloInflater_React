@@ -17,7 +17,7 @@ const Header = (props: any) => {
   const [displaySearchBar, setDisplaySearchBar] = useState<boolean>(true);
 
   useEffect(() => {
-    if (window.location.href.includes("/overview")) {
+    if (window.location.href.includes("/home")) {
       setDisplaySearchBar(false);
       return;
     }

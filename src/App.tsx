@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 
 import { CssBaseline, ThemeProvider, TextField } from "@mui/material";
 import { createTheme, Theme } from "@mui/material/styles";
@@ -97,8 +97,8 @@ function App() {
 
         <main>
           <Routes>
-            <Route path="*" element={<Home />}></Route>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="*" element={<Navigate to="/home" />}></Route>
+            <Route path="/" element={<Navigate to="/home" />}></Route>
             <Route path="home" element={<Home />}></Route>
             <Route
               path="/data/summoner/:region/:summonerName"
