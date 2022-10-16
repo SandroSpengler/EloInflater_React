@@ -14,12 +14,15 @@ const Header = (props: any) => {
     fontSize: "14px",
   };
 
-  const [displaySearchBar, setDisplaySearchBar] = useState(true);
+  const [displaySearchBar, setDisplaySearchBar] = useState<boolean>(true);
 
   useEffect(() => {
     if (window.location.href.includes("/overview")) {
       setDisplaySearchBar(false);
+      return;
     }
+
+    setDisplaySearchBar(true);
   }, [location.pathname]);
 
   return (
