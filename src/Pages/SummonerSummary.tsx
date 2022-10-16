@@ -190,7 +190,14 @@ function SummonerSummary() {
   return (
     <div className="summonerPageWrapper">
       <Grid container spacing={1.1} columns={12}>
-        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={5}
+          lg={4}
+          style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}
+        >
           <Paper className="InformationPaper">
             <div className={"SummonerIcon"}>
               <Avatar
@@ -214,11 +221,16 @@ function SummonerSummary() {
             </div>
           </Paper>
         </Grid>
-        <Grid item md={7} lg={8}>
-          <Paper></Paper>
-        </Grid>
+
         <Box width="100%" />
-        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={5}
+          lg={4}
+          style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}
+        >
           <Paper className="InformationPaper">
             <div
               style={{

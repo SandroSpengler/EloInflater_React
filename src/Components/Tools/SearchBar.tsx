@@ -8,6 +8,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { getSummonerByName } from "../../Services/HttpService";
 import axios, { AxiosError } from "axios";
 
+import "./SearchBar.css";
+
 const SearchBar = (props: { styles: React.CSSProperties }) => {
   const [searchSummonerName, setSearchSummonerName] = useState<string>("");
   const [requestingSummoner, setRequestingSummoner] = useState<boolean>(false);
@@ -107,7 +109,8 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
         label="Summoner Name"
         value={searchSummonerName}
         variant="outlined"
-        style={props.styles}
+        // style={props.styles}
+        className="SearchBarWrapper"
         onKeyDown={(event) => {
           keyEvaluateBoardInputs(event);
         }}

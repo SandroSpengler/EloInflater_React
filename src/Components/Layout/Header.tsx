@@ -10,7 +10,7 @@ const Header = (props: any) => {
   const location = useLocation();
 
   const searchBarStyles: React.CSSProperties = {
-    width: "450px",
+    width: "200px",
     fontSize: "14px",
   };
 
