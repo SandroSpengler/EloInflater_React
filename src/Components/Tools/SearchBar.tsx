@@ -38,9 +38,9 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
     try {
       const summoner = await getSummonerByName(searchSummonerName);
 
-      await navigate(path + summoner.name);
+      setRequestingSummoner(false);
 
-      location.reload();
+      await navigate(path + summoner.name);
     } catch (error: any) {
       if (!axios.isAxiosError(error)) {
         setDisplayError(true);
@@ -60,7 +60,6 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
       setErrorNotificationMessage("Server currently not reachable");
       return;
     } finally {
-      setRequestingSummoner(false);
     }
   };
 
@@ -73,6 +72,7 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
     return (
       <React.Fragment>
         <Button
+          aria-label="searchButton"
           variant="contained"
           color="primary"
           size="small"
@@ -104,7 +104,6 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
   return (
     <div style={{ justifyContent: "center", display: "flex", alignItems: "center" }}>
       <TextField
-        id="summonerName"
         label="Summoner Name"
         value={searchSummonerName}
         variant="outlined"

@@ -13,20 +13,19 @@ import {
 
 import axios, { AxiosError } from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 import { Summoner } from "../Models/Summoner";
 
-import {
-  putUpdateMatchesBySummonerId,
-  getSummonerByName,
-} from "../Services/HttpService";
+import { putUpdateMatchesBySummonerId, getSummonerByName } from "../Services/HttpService";
 
 import "./SummonerSummary.css";
 
 function SummonerSummary() {
+  let isMounted = false;
   let { region, summonerName } = useParams();
+  const location = useLocation();
 
   // Data
   const [summoner, setSummoner] = useState<Summoner>();
@@ -36,11 +35,9 @@ function SummonerSummary() {
   const [summonerIsUpdating, setSummonerIsUpdating] = useState<Boolean>(false);
   const [summonerCanBeUpdated, setsummonerCanBeUpdated] = useState(true);
 
-  const [displayNotification, setDisplayNotification] =
-    useState<boolean>(false);
+  const [displayNotification, setDisplayNotification] = useState<boolean>(false);
   const [notificationMessage, setNotificationMessage] = useState<string>("");
-  const [notificationSeverity, setNotificationSeverity] =
-    useState<AlertColor>();
+  const [notificationSeverity, setNotificationSeverity] = useState<AlertColor>();
 
   // Counters
   const [exhaustCount, setexhaustCount] = useState<number>(0);
@@ -55,7 +52,6 @@ function SummonerSummary() {
       summoner = await getSummonerByName(summonerName);
 
       await setSummoner(summoner);
-
       await setexhaustCount(summoner.exhaustCount);
       await setexhaustCastedCount(summoner.exhaustCastCount);
       await setTabisCount(summoner.tabisCount);
@@ -67,7 +63,7 @@ function SummonerSummary() {
     if (summonerName) {
       fetchSummonerData(summonerName);
     }
-  }, []);
+  }, [location.pathname]);
 
   const displayDate = (dateToDisplay: number | undefined) => {
     if (dateToDisplay) {
@@ -90,9 +86,7 @@ function SummonerSummary() {
 
       await setSummonerIsUpdating(true);
 
-      const updatedSummoner = await putUpdateMatchesBySummonerId(
-        summoner.summonerId
-      );
+      const updatedSummoner = await putUpdateMatchesBySummonerId(summoner.summonerId);
 
       if (summoner === null) {
         setDisplayNotification(true);
@@ -120,16 +114,12 @@ function SummonerSummary() {
           // Add Summoner to list of summoners that need updating
 
           setDisplayNotification(true);
-          setNotificationMessage(
-            "Rate limit has been reached, please try again later"
-          );
+          setNotificationMessage("Rate limit has been reached, please try again later");
           setNotificationSeverity("error");
         }
       } else {
         setDisplayNotification(true);
-        setNotificationMessage(
-          `An unknown error has occured: ${error.message}`
-        );
+        setNotificationMessage(`An unknown error has occured: ${error.message}`);
         setNotificationSeverity("error");
       }
     } finally {
@@ -184,20 +174,13 @@ function SummonerSummary() {
   const calculateSummonerMatches = (): string => {
     if (summoner === undefined) return "n/a";
 
-    return `${
-      summoner.uninflatedMatchList.length + summoner.inflatedMatchList.length
-    }`;
+    return `${summoner.uninflatedMatchList.length + summoner.inflatedMatchList.length}`;
   };
 
   const displayInflatedStats = (inflatedStat: number): string => {
     if (summoner === undefined) return "n/a";
 
-    if (
-      summoner.inflatedMatchList.length +
-        summoner.uninflatedMatchList.length ===
-      0
-    )
-      return "n/a";
+    if (summoner.inflatedMatchList.length + summoner.uninflatedMatchList.length === 0) return "n/a";
 
     if (inflatedStat === undefined) return "n/a";
 
@@ -207,12 +190,7 @@ function SummonerSummary() {
   return (
     <div className="summonerPageWrapper">
       <Grid container spacing={1.1} columns={12}>
-        <Grid
-          item
-          md={5}
-          lg={4}
-          style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}
-        >
+        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}>
           <Paper className="InformationPaper">
             <div className={"SummonerIcon"}>
               <Avatar
@@ -222,21 +200,11 @@ function SummonerSummary() {
               ></Avatar>
             </div>
             <div className="InformationText">
-              <Typography
-                component="div"
-                variant="h5"
-                fontSize={22}
-                padding={"3px"}
-              >
+              <Typography component="div" variant="h5" fontSize={22} padding={"3px"}>
                 {summoner?.name}
               </Typography>
 
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={12}
-                padding={"3px"}
-              >
+              <Typography component="div" variant="h6" fontSize={12} padding={"3px"}>
                 Last Updated: {displayDate(summoner?.lastMatchUpdate)}
               </Typography>
 
@@ -250,12 +218,7 @@ function SummonerSummary() {
           <Paper></Paper>
         </Grid>
         <Box width="100%" />
-        <Grid
-          item
-          md={5}
-          lg={4}
-          style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}
-        >
+        <Grid item md={5} lg={4} style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}>
           <Paper className="InformationPaper">
             <div
               style={{
@@ -298,20 +261,10 @@ function SummonerSummary() {
                 alignItems: "center",
               }}
             >
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={16}
-                paddingTop={2}
-              >
+              <Typography component="div" variant="h6" fontSize={16} paddingTop={2}>
                 Casted
               </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                fontSize={16}
-                paddingTop={2}
-              >
+              <Typography component="div" variant="subtitle1" fontSize={16} paddingTop={2}>
                 {displayInflatedStats(exhaustCastedCount)}
               </Typography>
             </div>
@@ -341,20 +294,10 @@ function SummonerSummary() {
                 alignItems: "center",
               }}
             >
-              <Typography
-                component="div"
-                variant="h6"
-                fontSize={16}
-                paddingTop={2}
-              >
+              <Typography component="div" variant="h6" fontSize={16} paddingTop={2}>
                 ---
               </Typography>
-              <Typography
-                component="div"
-                variant="subtitle1"
-                fontSize={16}
-                paddingTop={2}
-              >
+              <Typography component="div" variant="subtitle1" fontSize={16} paddingTop={2}>
                 --
               </Typography>
             </div>

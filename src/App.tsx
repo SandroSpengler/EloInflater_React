@@ -83,7 +83,6 @@ function App() {
       document.title = "DEV | Eloinflater";
     }
     if (process.env.NODE_ENV === "test") {
-      console.log("TEST");
       document.title = "TEST | Eloinflater";
     }
   });
@@ -101,7 +100,6 @@ function App() {
             <Route path="*" element={<Home />}></Route>
             <Route path="/" element={<Home />}></Route>
             <Route path="home" element={<Home />}></Route>
-            <Route path="/data/summoner/notFound" element={<Home />}></Route>
             <Route
               path="/data/summoner/:region/:summonerName"
               element={<SummonerSummary />}
