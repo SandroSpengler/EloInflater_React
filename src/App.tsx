@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { CssBaseline, ThemeProvider, TextField } from "@mui/material";
 import { createTheme, Theme } from "@mui/material/styles";
-import { amber, blue, blueGrey, deepOrange, deepPurple, green, grey, indigo, purple } from "@mui/material/colors";
+import {
+  amber,
+  blue,
+  blueGrey,
+  deepOrange,
+  deepPurple,
+  green,
+  grey,
+  indigo,
+  purple,
+} from "@mui/material/colors";
 
 import "./App.css";
 
@@ -67,6 +77,17 @@ const theme = createTheme({
 });
 
 function App() {
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.log("DEV");
+      document.title = "DEV | Eloinflater";
+    }
+    if (process.env.NODE_ENV === "test") {
+      console.log("TEST");
+      document.title = "TEST | Eloinflater";
+    }
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -81,7 +102,10 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="home" element={<Home />}></Route>
             <Route path="/data/summoner/notFound" element={<Home />}></Route>
-            <Route path="/data/summoner/:region/:summonerName" element={<SummonerSummary />}></Route>
+            <Route
+              path="/data/summoner/:region/:summonerName"
+              element={<SummonerSummary />}
+            ></Route>
           </Routes>
         </main>
       </Router>
