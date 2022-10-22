@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 
-import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
+import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
 
-import { CssBaseline, ThemeProvider, TextField } from "@mui/material";
-import { createTheme, Theme } from "@mui/material/styles";
+import {CssBaseline, ThemeProvider, TextField} from "@mui/material";
+import {createTheme, Theme} from "@mui/material/styles";
 import {
   amber,
   blue,
@@ -21,7 +21,7 @@ import "./App.css";
 import Home from "./Pages/Home";
 import Header from "./Components/Layout/Header";
 import SummonerSummary from "./Pages/SummonerSummary";
-import { ColorPartial } from "@mui/material/styles/createPalette";
+import {ColorPartial} from "@mui/material/styles/createPalette";
 
 const primary = "#1D1D42";
 const secondary = "#19857b";
@@ -79,7 +79,6 @@ const theme = createTheme({
 function App() {
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
-      console.log("DEV");
       document.title = "DEV | Eloinflater";
     }
     if (process.env.NODE_ENV === "test") {

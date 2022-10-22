@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, {useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
-import { Alert, Button, CircularProgress, Snackbar, TextField } from "@mui/material";
+import {Alert, Button, CircularProgress, Snackbar, TextField} from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
 
-import { getSummonerByName } from "../../Services/HttpService";
-import axios, { AxiosError } from "axios";
+import {getSummonerByName} from "../../Services/HttpService";
+import axios, {AxiosError} from "axios";
 
 import "./SearchBar.css";
 
-const SearchBar = (props: { styles: React.CSSProperties }) => {
+const SearchBar = (props: {styles: React.CSSProperties}) => {
   const [searchSummonerName, setSearchSummonerName] = useState<string>("");
   const [requestingSummoner, setRequestingSummoner] = useState<boolean>(false);
 
@@ -78,6 +78,7 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
           variant="contained"
           color="primary"
           size="small"
+          disabled={searchSummonerName === "" ? true : false}
           onClick={() => {
             validateSummonerAndNavigate();
           }}
@@ -104,10 +105,9 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
   };
 
   return (
-    <div style={{ justifyContent: "center", display: "flex", alignItems: "center" }}>
+    <div style={{justifyContent: "center", display: "flex", alignItems: "center"}}>
       <TextField
         label="Summoner Name"
-        value={searchSummonerName}
         variant="outlined"
         // style={props.styles}
         className="SearchBarWrapper"
@@ -123,7 +123,7 @@ const SearchBar = (props: { styles: React.CSSProperties }) => {
           ) : (
             <SearchButton />
           ),
-          style: { color: "white", alignItems: "center" },
+          style: {color: "white", alignItems: "center"},
         }}
       />
 
