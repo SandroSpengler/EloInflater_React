@@ -18,5 +18,5 @@
     "strictPropertyInitialization": false,
     "noUnusedLocals": false
   },
-  "include": ["src"]
+  "include": ["src", "jest.config.ts"]
 }

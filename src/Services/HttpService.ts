@@ -1,6 +1,6 @@
-import axios, { AxiosError } from "axios";
-import { MatchData } from "../Models/MatchData";
-import { Summoner } from "../Models/Summoner";
+import axios, {AxiosError} from "axios";
+import {MatchData} from "../Models/MatchData";
+import {Summoner} from "../Models/Summoner";
 
 // only change by Region
 let data: string = "data/";
@@ -57,4 +57,4 @@ const buildBaseUrl = (action: string, endpointUrl: string): string => {
   return completeUrl;
 };
 
-export { getSummonerByName, putUpdateMatchesBySummonerId };
+export {getSummonerByName, putUpdateMatchesBySummonerId};

@@ -11,20 +11,21 @@ import {
   AlertColor,
 } from "@mui/material";
 
-import axios, { AxiosError } from "axios";
+import axios, {AxiosError} from "axios";
 import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, {useEffect, useRef, useState} from "react";
+import {useLocation, useParams} from "react-router-dom";
 
-import { Summoner } from "../Models/Summoner";
+import {Summoner} from "../Models/Summoner";
 
-import { putUpdateMatchesBySummonerId, getSummonerByName } from "../Services/HttpService";
+import {putUpdateMatchesBySummonerId, getSummonerByName} from "../Services/HttpService";
 
 import "./SummonerSummary.css";
 
 function SummonerSummary() {
+  console.log("HERE I COME");
   let isMounted = false;
-  let { region, summonerName } = useParams();
+  let {region, summonerName} = useParams();
   const location = useLocation();
 
   // Data
@@ -139,7 +140,7 @@ function SummonerSummary() {
           variant="contained"
           color="primary"
           size="large"
-          style={{ marginTop: "10px", marginBottom: "10px" }}
+          style={{marginTop: "10px", marginBottom: "10px"}}
           onClick={() => {
             updateSummoner();
           }}
@@ -196,14 +197,14 @@ function SummonerSummary() {
           sm={12}
           md={5}
           lg={4}
-          style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}
+          style={{backgroundColor: "#1D1D42", maxWidth: "400px"}}
         >
           <Paper className="InformationPaper">
             <div className={"SummonerIcon"}>
               <Avatar
                 variant="square"
                 src={` https://opgg-static.akamaized.net/images/profile_icons/profileIcon${summoner?.profileIconId}.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1648211565552`}
-                style={{ width: 100, height: 100 }}
+                style={{width: 100, height: 100}}
               ></Avatar>
             </div>
             <div className="InformationText">
@@ -229,7 +230,7 @@ function SummonerSummary() {
           sm={12}
           md={5}
           lg={4}
-          style={{ backgroundColor: "#1D1D42", maxWidth: "400px" }}
+          style={{backgroundColor: "#1D1D42", maxWidth: "400px"}}
         >
           <Paper className="InformationPaper">
             <div

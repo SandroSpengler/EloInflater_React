@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router";
 
 import {Alert, Button, CircularProgress, Snackbar, TextField} from "@mui/material";
 
@@ -44,6 +44,8 @@ const SearchBar = (props: {styles: React.CSSProperties}) => {
 
       await navigate(path + summoner.name);
     } catch (error: any) {
+      console.log(error);
+
       if (!axios.isAxiosError(error)) {
         setDisplayError(true);
         setRequestingSummoner(false);

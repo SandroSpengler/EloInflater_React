@@ -10,8 +10,6 @@ export interface Summoner {
   leaguePoints: number;
   rank: string;
   rankSolo: string;
-  flexSolo: string;
-  flextt: string;
   wins: number;
   losses: number;
   veteran: boolean;
@@ -25,8 +23,6 @@ export interface Summoner {
   tabisCount: number;
   zhonaysCount: number;
   zhonaysCastCount: number;
-  lastRankUpdate: number;
   lastMatchUpdate: number;
-  createdAt: number;
   updatedAt: number;
 }
