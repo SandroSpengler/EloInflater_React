@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 
-import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
+import {BrowserRouter, BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
 
 import {CssBaseline, ThemeProvider, TextField} from "@mui/material";
 import {createTheme, Theme} from "@mui/material/styles";
@@ -89,7 +89,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
+      <BrowserRouter>
         <div className="headerWrapper">
           <Header />
         </div>
@@ -105,7 +105,7 @@ function App() {
             ></Route>
           </Routes>
         </main>
-      </Router>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

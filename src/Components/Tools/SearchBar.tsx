@@ -109,6 +109,7 @@ const SearchBar = (props: {styles: React.CSSProperties}) => {
   return (
     <div style={{justifyContent: "center", display: "flex", alignItems: "center"}}>
       <TextField
+        aria-label="test"
         label="Summoner Name"
         variant="outlined"
         // style={props.styles}

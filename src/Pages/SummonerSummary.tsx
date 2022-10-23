@@ -23,8 +23,6 @@ import {putUpdateMatchesBySummonerId, getSummonerByName} from "../Services/HttpS
 import "./SummonerSummary.css";
 
 function SummonerSummary() {
-  console.log("HERE I COME");
-  let isMounted = false;
   let {region, summonerName} = useParams();
   const location = useLocation();
 
