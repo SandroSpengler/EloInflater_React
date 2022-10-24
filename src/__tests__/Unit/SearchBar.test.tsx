@@ -1,7 +1,7 @@
 import {BrowserRouter, MemoryRouter, useLocation} from "react-router-dom";
 import {createMemoryHistory} from "history";
 
-import SearchBar from "../Components/Tools/SearchBar";
+import SearchBar from "../../Components/Tools/SearchBar";
 
 // User-Event -> Changes State
 // Fire-Event -> Changes HTML-Elements
@@ -11,7 +11,7 @@ import userEvent from "@testing-library/user-event";
 
 import {rest} from "msw";
 import {setupServer} from "msw/node";
-import App from "../App";
+import App from "../../App";
 
 describe("SerachBar Component Tests", () => {
   const baseURL = process.env.REACT_APP_BASE_URL as string;
