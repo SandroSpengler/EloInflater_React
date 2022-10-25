@@ -15,7 +15,7 @@ const getSummonerByName = async (name: string): Promise<Summoner> => {
     return await response.data;
   } catch (error: any | AxiosError) {
     if (axios.isAxiosError(error)) {
-      // console.log(error);
+      console.log(error);
     }
 
     throw error;

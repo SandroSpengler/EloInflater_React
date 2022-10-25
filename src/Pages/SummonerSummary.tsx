@@ -24,6 +24,8 @@ import "./SummonerSummary.css";
 
 function SummonerSummary() {
   let {region, summonerName} = useParams();
+  console.log(region, summonerName);
+
   const location = useLocation();
 
   // Data
@@ -275,7 +277,13 @@ function SummonerSummary() {
               <Typography component="div" variant="h6" fontSize={16} paddingTop={2}>
                 Casted
               </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} paddingTop={2}>
+              <Typography
+                title="exhaustCastCount"
+                component="div"
+                variant="subtitle1"
+                fontSize={16}
+                paddingTop={2}
+              >
                 {displayInflatedStats(exhaustCastedCount)}
               </Typography>
             </div>
