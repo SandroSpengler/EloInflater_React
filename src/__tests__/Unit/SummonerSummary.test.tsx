@@ -1,6 +1,7 @@
-import {render, screen, waitFor} from "@testing-library/react";
+import {act, findByText, render, screen, waitFor} from "@testing-library/react";
 
-import {MemoryRouter} from "react-router-dom";
+import {createMemoryRouter, MemoryRouter, Route, Routes} from "react-router-dom";
+import {createMemoryHistory} from "history";
 
 import SummonerSummary from "../../Pages/SummonerSummary";
 import {startMSWServer, stopMSWServer} from "../../__utlis__/HttpEnpoints";
@@ -24,21 +25,29 @@ describe("SummonerSummary Component Tests", () => {
   });
 
   fit("Displaying Summoner-Stats", async () => {
+    const history = createMemoryHistory();
     const summonerSummary = <SummonerSummary />;
     const route: string = "/data/summoner/euw/Don%20Noway";
 
-    // render(summonerSummary);
+    history.push(route);
 
-    await render(<MemoryRouter initialEntries={[route]}>{summonerSummary}</MemoryRouter>);
+    render(
+      <MemoryRouter initialEntries={[route]}>
+        <Routes>
+          <Route path="/data/summoner/:region/:summonerName" element={summonerSummary}></Route>
+        </Routes>
+      </MemoryRouter>,
+    );
 
-    await waitFor(async () => {
-      expect(screen.getByText("Don")).toBeInTheDocument();
+    await waitFor(() => {
+      const matchesText = screen.getByText("Matches checked");
 
-      // const exhaustCastCount = await screen.findByTitle("exhaustCastCount");
-
-      // expect(exhaustCastCount).toHaveTextContent("125");
-
-      // console.log(exhaustCastCount.textContent);
+      expect(matchesText).toBeDefined();
     });
+
+    const exhaustCount = screen.getByText("29");
+    expect(exhaustCount).toBeDefined();
+
+    // screen.debug();
   });
 });

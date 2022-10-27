@@ -24,7 +24,6 @@ import "./SummonerSummary.css";
 
 function SummonerSummary() {
   let {region, summonerName} = useParams();
-  console.log(region, summonerName);
 
   const location = useLocation();
 
@@ -61,7 +60,7 @@ function SummonerSummary() {
   };
 
   useEffect(() => {
-    if (summonerName) {
+    if (summonerName !== undefined) {
       fetchSummonerData(summonerName);
     }
   }, [location.pathname]);
@@ -189,164 +188,165 @@ function SummonerSummary() {
   };
 
   return (
-    <div className="summonerPageWrapper">
-      <Grid container spacing={1.1} columns={12}>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={5}
-          lg={4}
-          style={{backgroundColor: "#1D1D42", maxWidth: "400px"}}
-        >
-          <Paper className="InformationPaper">
-            <div className={"SummonerIcon"}>
-              <Avatar
-                variant="square"
-                src={` https://opgg-static.akamaized.net/images/profile_icons/profileIcon${summoner?.profileIconId}.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1648211565552`}
-                style={{width: 100, height: 100}}
-              ></Avatar>
-            </div>
-            <div className="InformationText">
-              <Typography component="div" variant="h5" fontSize={22} padding={"3px"}>
-                {summoner?.name}
-              </Typography>
+    <React.Fragment>
+      <div className="summonerPageWrapper">
+        <Grid container spacing={1.1} columns={12}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={5}
+            lg={4}
+            style={{backgroundColor: "#1D1D42", maxWidth: "400px"}}
+          >
+            <Paper className="InformationPaper">
+              <div className={"SummonerIcon"}>
+                <Avatar
+                  variant="square"
+                  src={` https://opgg-static.akamaized.net/images/profile_icons/profileIcon${summoner?.profileIconId}.jpg?image=q_auto&image=q_auto,f_webp,w_auto&v=1648211565552`}
+                  style={{width: 100, height: 100}}
+                ></Avatar>
+              </div>
+              <div className="InformationText">
+                <Typography component="div" variant="h5" fontSize={22} padding={"3px"}>
+                  {summoner?.name}
+                </Typography>
 
-              <Typography component="div" variant="h6" fontSize={12} padding={"3px"}>
-                Last Updated: {displayDate(summoner?.lastMatchUpdate)}
-              </Typography>
+                <Typography component="div" variant="h6" fontSize={12} padding={"3px"}>
+                  Last Updated: {displayDate(summoner?.lastMatchUpdate)}
+                </Typography>
 
-              {showSummonerInformation()}
+                {showSummonerInformation()}
 
-              <div>{showUpdateButtonOrSpinner()}</div>
-            </div>
-          </Paper>
-        </Grid>
+                <div>{showUpdateButtonOrSpinner()}</div>
+              </div>
+            </Paper>
+          </Grid>
 
-        <Box width="100%" />
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={5}
-          lg={4}
-          style={{backgroundColor: "#1D1D42", maxWidth: "400px"}}
-        >
-          <Paper className="InformationPaper">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Typography component="div" variant="h6" fontSize={20}>
-                Matches checked
-              </Typography>
-              <Typography component="div" variant="h6" fontSize={20}>
-                {calculateSummonerMatches()}
-              </Typography>
-            </div>
-          </Paper>
-          <Paper className="InflationStats">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Typography component="div" variant="h6" fontSize={16}>
-                Exhaust picked
-              </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16}>
-                {displayInflatedStats(exhaustCount)}
-              </Typography>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Typography component="div" variant="h6" fontSize={16} paddingTop={2}>
-                Casted
-              </Typography>
-              <Typography
-                title="exhaustCastCount"
-                component="div"
-                variant="subtitle1"
-                fontSize={16}
-                paddingTop={2}
+          <Box width="100%" />
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={5}
+            lg={4}
+            style={{backgroundColor: "#1D1D42", maxWidth: "400px"}}
+          >
+            <Paper className="InformationPaper">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  alignItems: "center",
+                }}
               >
-                {displayInflatedStats(exhaustCastedCount)}
-              </Typography>
-            </div>
-          </Paper>
-          <Paper className="InflationStats">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Typography component="div" variant="h6" fontSize={16}>
-                Tabis bought
-              </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16}>
-                {displayInflatedStats(tabisCount)}
-              </Typography>
-            </div>
+                <Typography component="div" variant="h6" fontSize={20}>
+                  Matches checked
+                </Typography>
+                <Typography component="div" variant="h6" fontSize={20}>
+                  {calculateSummonerMatches()}
+                </Typography>
+              </div>
+            </Paper>
+            <Paper className="InflationStats">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <Typography component="div" variant="h6" fontSize={16}>
+                  Exhaust picked
+                </Typography>
+                <Typography component="div" variant="subtitle1" fontSize={16}>
+                  {displayInflatedStats(exhaustCount)}
+                </Typography>
+              </div>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Typography component="div" variant="h6" fontSize={16} paddingTop={2}>
-                ---
-              </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16} paddingTop={2}>
-                --
-              </Typography>
-            </div>
-          </Paper>
-          <Paper className="InflationStats">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Typography component="div" variant="h6" fontSize={16}>
-                {"Zhonya's bought"}
-              </Typography>
-              <Typography component="div" variant="subtitle1" fontSize={16}>
-                {displayInflatedStats(zhonaysCount)}
-              </Typography>
-            </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <Typography component="div" variant="h6" fontSize={16} paddingTop={2}>
+                  Casted
+                </Typography>
+                <Typography
+                  title="exhaustCastCount"
+                  component="div"
+                  variant="subtitle1"
+                  fontSize={16}
+                  paddingTop={2}
+                >
+                  {displayInflatedStats(exhaustCastedCount)}
+                </Typography>
+              </div>
+            </Paper>
+            <Paper className="InflationStats">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <Typography component="div" variant="h6" fontSize={16}>
+                  Tabis bought
+                </Typography>
+                <Typography component="div" variant="subtitle1" fontSize={16}>
+                  {displayInflatedStats(tabisCount)}
+                </Typography>
+              </div>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              {/* <Typography
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <Typography component="div" variant="h6" fontSize={16} paddingTop={2}>
+                  ---
+                </Typography>
+                <Typography component="div" variant="subtitle1" fontSize={16} paddingTop={2}>
+                  --
+                </Typography>
+              </div>
+            </Paper>
+            <Paper className="InflationStats">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <Typography component="div" variant="h6" fontSize={16}>
+                  {"Zhonya's bought"}
+                </Typography>
+                <Typography component="div" variant="subtitle1" fontSize={16}>
+                  {displayInflatedStats(zhonaysCount)}
+                </Typography>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  alignItems: "center",
+                }}
+              >
+                {/* <Typography
                 component="div"
                 variant="h6"
                 fontSize={16}
@@ -364,22 +364,23 @@ function SummonerSummary() {
               >
                 {summoner?.matchList ? "n/a" : "n/a"}
               </Typography> */}
-            </div>
-          </Paper>
+              </div>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
-      <div>
-        <Snackbar
-          open={displayNotification}
-          autoHideDuration={6000}
-          onClose={() => setDisplayNotification(false)}
-        >
-          <Alert onClose={() => setDisplayNotification(false)} severity="error">
-            {notificationMessage}
-          </Alert>
-        </Snackbar>
+        <div>
+          <Snackbar
+            open={displayNotification}
+            autoHideDuration={6000}
+            onClose={() => setDisplayNotification(false)}
+          >
+            <Alert onClose={() => setDisplayNotification(false)} severity="error">
+              {notificationMessage}
+            </Alert>
+          </Snackbar>
+        </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 
