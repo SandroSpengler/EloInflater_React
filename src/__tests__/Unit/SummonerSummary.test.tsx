@@ -1,9 +1,7 @@
-import {act, findByText, render, screen, waitFor} from "@testing-library/react";
+import {render, screen, waitFor} from "@testing-library/react";
 
-import {createMemoryRouter, MemoryRouter, Route, Routes} from "react-router-dom";
 import {createMemoryHistory} from "history";
 
-import SummonerSummary from "../../Pages/SummonerSummary";
 import {startMSWServer, stopMSWServer} from "../../__utlis__/HttpEnpoints";
 import createRouterWithEndpoints from "../../__utlis__/RouterEndpoint";
 
@@ -32,8 +30,13 @@ describe("SummonerSummary Component Tests", () => {
     });
 
     const exhaustCount = screen.getByText("29");
-    expect(exhaustCount).toBeDefined();
+    const exhaustCastedCount = screen.getByText("125");
+    const tabisCount = screen.getByText("42");
+    const zhonaysCount = screen.getByText("159");
 
-    // screen.debug();
+    expect(exhaustCount).toBeDefined();
+    expect(exhaustCastedCount).toBeDefined();
+    expect(tabisCount).toBeDefined();
+    expect(zhonaysCount).toBeDefined();
   });
 });
