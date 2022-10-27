@@ -5,6 +5,7 @@ import {createMemoryHistory} from "history";
 
 import SummonerSummary from "../../Pages/SummonerSummary";
 import {startMSWServer, stopMSWServer} from "../../__utlis__/HttpEnpoints";
+import createRouterWithEndpoints from "../../__utlis__/RouterEndpoint";
 
 describe("SummonerSummary Component Tests", () => {
   beforeAll(() => {
@@ -15,29 +16,14 @@ describe("SummonerSummary Component Tests", () => {
     stopMSWServer();
   });
 
-  it("SummonerSummary to exist", () => {
-    const summonerSummary = <SummonerSummary />;
-    const route: string = "/data/summoner/euw/";
-
-    render(<MemoryRouter initialEntries={[route]}>{summonerSummary}</MemoryRouter>);
-
-    expect(summonerSummary).toBeDefined();
-  });
-
-  fit("Displaying Summoner-Stats", async () => {
+  it("Displaying Summoner-Stats", async () => {
     const history = createMemoryHistory();
-    const summonerSummary = <SummonerSummary />;
+
     const route: string = "/data/summoner/euw/Don%20Noway";
 
     history.push(route);
 
-    render(
-      <MemoryRouter initialEntries={[route]}>
-        <Routes>
-          <Route path="/data/summoner/:region/:summonerName" element={summonerSummary}></Route>
-        </Routes>
-      </MemoryRouter>,
-    );
+    render(createRouterWithEndpoints(route));
 
     await waitFor(() => {
       const matchesText = screen.getByText("Matches checked");

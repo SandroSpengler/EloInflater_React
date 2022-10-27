@@ -77,6 +77,22 @@ const theme = createTheme({
   },
 });
 
+/**
+ * Creates the routes for the App-Routing
+ *
+ * @returns ReactRoutingElement
+ */
+export const routes = (): React.ReactElement => {
+  return (
+    <Routes>
+      <Route path="*" element={<Navigate to="/home" />}></Route>
+      <Route path="/" element={<Navigate to="/home" />}></Route>
+      <Route path="home" element={<Home />}></Route>
+      <Route path="/data/summoner/:region/:summonerName" element={<SummonerSummary />}></Route>
+    </Routes>
+  );
+};
+
 function App() {
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
@@ -94,21 +110,9 @@ function App() {
         <div className="headerWrapper">
           <Header />
         </div>
-
-        <main>
-          <Routes>
-            <Route path="*" element={<Navigate to="/home" />}></Route>
-            <Route path="/" element={<Navigate to="/home" />}></Route>
-            <Route path="home" element={<Home />}></Route>
-            <Route
-              path="/data/summoner/:region/:summonerName"
-              element={<SummonerSummary />}
-            ></Route>
-          </Routes>
-        </main>
+        <main>{routes()}</main>
       </BrowserRouter>
     </ThemeProvider>
   );
 }
-
 export default App;
