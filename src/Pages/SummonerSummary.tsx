@@ -124,6 +124,8 @@ function SummonerSummary() {
       }
     } finally {
       await setSummonerIsUpdating(false);
+
+      await fetchSummonerData(summonerName!);
     }
   };
 

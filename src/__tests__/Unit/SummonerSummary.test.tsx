@@ -2,7 +2,7 @@ import {render, screen, waitFor} from "@testing-library/react";
 
 import {createMemoryHistory} from "history";
 
-import {startMSWServer, stopMSWServer} from "../../__utlis__/HttpEnpoints";
+import {startMSWServer, stopMSWServer, summonerBeforeUpdate} from "../../__utlis__/HttpEnpoints";
 import createRouterWithEndpoints from "../../__utlis__/RouterEndpoint";
 
 describe("SummonerSummary Component Tests", () => {
@@ -16,8 +16,8 @@ describe("SummonerSummary Component Tests", () => {
 
   it("Displaying Summoner-Stats", async () => {
     const history = createMemoryHistory();
-
-    const route: string = "/data/summoner/euw/Don%20Noway";
+    const summoner = summonerBeforeUpdate();
+    const route: string = `/data/summoner/euw/${summoner.name}`;
 
     history.push(route);
 
@@ -29,10 +29,10 @@ describe("SummonerSummary Component Tests", () => {
       expect(matchesText).toBeDefined();
     });
 
-    const exhaustCount = screen.getByText("29");
-    const exhaustCastedCount = screen.getByText("125");
-    const tabisCount = screen.getByText("42");
-    const zhonaysCount = screen.getByText("159");
+    const exhaustCount = screen.getByText(summoner.exhaustCount);
+    const exhaustCastedCount = screen.getByText(summoner.exhaustCastCount);
+    const tabisCount = screen.getByText(summoner.tabisCount);
+    const zhonaysCount = screen.getByText(summoner.zhonaysCount);
 
     expect(exhaustCount).toBeDefined();
     expect(exhaustCastedCount).toBeDefined();

@@ -13,6 +13,9 @@ import {rest} from "msw";
 import {setupServer} from "msw/node";
 import App from "../../App";
 import {startMSWServer, stopMSWServer} from "../../__utlis__/HttpEnpoints";
+import createRouterWithEndpoints from "../../__utlis__/RouterEndpoint";
+import React from "react";
+import Header from "../../Components/Layout/Header";
 
 describe("SerachBar Component Tests", () => {
   beforeAll(() => {
@@ -42,20 +45,29 @@ describe("SerachBar Component Tests", () => {
     expect(searchButton).toBeEnabled;
   });
 
-  it("Searching User", async () => {
-    const route = "/";
+  // ToDo
+  // Valdiate Navigation including the Header
+  it("Searching User on Home Page", async () => {
     const user = userEvent.setup();
-    const searchBar = <SearchBar styles={{width: "800px"}} />;
 
-    render(<App />);
+    const history = createMemoryHistory();
+
+    const route: string = "/";
+
+    history.push(route);
+
+    render(createRouterWithEndpoints(route));
 
     const summonerInput = screen.getByRole("textbox", {name: /Summoner Name/i});
-    const searchButton = screen.getByRole("button", {name: /searchButton/i});
 
     expect(summonerInput).toHaveValue("");
 
     await user.type(summonerInput, `Don Noway{enter}`);
 
-    expect(location.pathname).toContain("/data/summoner/euw");
+    await waitFor(() => {
+      const matchesText = screen.getByText("Matches checked");
+
+      expect(matchesText).toBeDefined();
+    });
   });
 });

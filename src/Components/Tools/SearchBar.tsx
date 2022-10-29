@@ -42,7 +42,8 @@ const SearchBar = (props: {styles: React.CSSProperties}) => {
 
       setRequestingSummoner(false);
 
-      await navigate(path + summoner.name);
+      setSearchSummonerName("");
+      navigate(path + summoner.name, {replace: true});
     } catch (error: any) {
       console.log(error);
 
@@ -112,6 +113,7 @@ const SearchBar = (props: {styles: React.CSSProperties}) => {
         aria-label="test"
         label="Summoner Name"
         variant="outlined"
+        value={searchSummonerName}
         // style={props.styles}
         className="SearchBarWrapper"
         onKeyDown={(event) => {
