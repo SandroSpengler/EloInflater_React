@@ -13,8 +13,8 @@ const setUpMSWServer = (): SetupServerApi => {
     }),
   );
   server.use(
-    rest.post(`${baseURL}/api/data/summoner/:userName`, (req, res, ctx) => {
-      return res(ctx.json(summonerBeforeUpdate()));
+    rest.put(`${baseURL}/api/refresh/match/:matchId`, (req, res, ctx) => {
+      return res(ctx.json(summonerAfterUpdate()));
     }),
   );
 

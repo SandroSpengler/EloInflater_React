@@ -27,15 +27,9 @@ const getSummonerByName = async (name: string): Promise<Summoner> => {
  *
  *
  */
-const putUpdateMatchesBySummonerId = async (
-  summonerId: string,
-): Promise<{
-  success: boolean;
-  result: Summoner | null;
-  error: null | string;
-}> => {
+const putUpdateMatchesBySummonerId = async (summonerId: string): Promise<Summoner> => {
   try {
-    const request = axios.put(`${buildBaseUrl(refresh, "match")}${summonerId}`);
+    const request = axios.put<Summoner>(`${buildBaseUrl(refresh, "match")}${summonerId}`);
 
     const response = await request;
 

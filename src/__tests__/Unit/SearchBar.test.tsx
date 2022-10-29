@@ -12,7 +12,7 @@ import userEvent from "@testing-library/user-event";
 import {rest} from "msw";
 import {setupServer} from "msw/node";
 import App from "../../App";
-import {startMSWServer, stopMSWServer} from "../../__utlis__/HttpEnpoints";
+import {startMSWServer, stopMSWServer, summonerBeforeUpdate} from "../../__utlis__/HttpEnpoints";
 import createRouterWithEndpoints from "../../__utlis__/RouterEndpoint";
 import React from "react";
 import Header from "../../Components/Layout/Header";
@@ -48,10 +48,9 @@ describe("SerachBar Component Tests", () => {
   // ToDo
   // Valdiate Navigation including the Header
   it("Searching User on Home Page", async () => {
+    const summoner = summonerBeforeUpdate();
     const user = userEvent.setup();
-
     const history = createMemoryHistory();
-
     const route: string = "/";
 
     history.push(route);
@@ -62,7 +61,7 @@ describe("SerachBar Component Tests", () => {
 
     expect(summonerInput).toHaveValue("");
 
-    await user.type(summonerInput, `Don Noway{enter}`);
+    await user.type(summonerInput, `${summoner.name}{enter}`);
 
     await waitFor(() => {
       const matchesText = screen.getByText("Matches checked");

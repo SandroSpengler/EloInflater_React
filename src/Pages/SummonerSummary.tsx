@@ -51,12 +51,38 @@ function SummonerSummary() {
     try {
       summoner = await getSummonerByName(summonerName);
 
+      await setStateBasedOnSummoner(summoner);
+    } catch (error: any) {
+      // ToDo
+      // Handle generic HTTP errors
+      setDisplayNotification(true);
+      setNotificationMessage(`Could not load summoner: ${error.message}`);
+      setNotificationSeverity("error");
+    }
+  };
+
+  /**
+   * Updates all State that relates to the Summoner
+   *
+   * @param summoner used for the state update
+   *
+   * @void
+   * @throws error if summoner is undefined
+   */
+  const setStateBasedOnSummoner = async (summoner: Summoner): Promise<void> => {
+    if (summoner === undefined || summoner === null) {
+      throw new Error("No SummonerData to display/refresh ");
+    }
+
+    try {
       await setSummoner(summoner);
       await setexhaustCount(summoner.exhaustCount);
       await setexhaustCastedCount(summoner.exhaustCastCount);
       await setTabisCount(summoner.tabisCount);
       await setzhonaysCount(summoner.zhonaysCount);
-    } catch (error) {}
+    } catch (error: any) {
+      throw error();
+    }
   };
 
   useEffect(() => {
@@ -95,7 +121,15 @@ function SummonerSummary() {
         return;
       }
 
-      await setSummoner(updatedSummoner?.result!);
+      await setSummoner(updatedSummoner!);
+
+      try {
+        await setStateBasedOnSummoner(updatedSummoner);
+      } catch (error: any) {
+        setDisplayNotification(true);
+        setNotificationMessage(`Could not Update Summoner State: ${error.message}`);
+        setNotificationSeverity("error");
+      }
     } catch (error: any) {
       setSummonerIsUpdating(false);
 
@@ -124,8 +158,6 @@ function SummonerSummary() {
       }
     } finally {
       await setSummonerIsUpdating(false);
-
-      await fetchSummonerData(summonerName!);
     }
   };
 
