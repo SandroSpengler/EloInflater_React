@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 
-import { useState } from "react";
-import { AppBar, Box, Button, IconButton, Link, Toolbar } from "@mui/material";
+import {useState} from "react";
+import {AppBar, Box, Button, IconButton, Link, Toolbar} from "@mui/material";
 
 import SearchBar from "../../Components/Tools/SearchBar";
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 const Header = (props: any) => {
   const location = useLocation();
@@ -27,30 +27,29 @@ const Header = (props: any) => {
 
   return (
     <React.Fragment>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{flexGrow: 1}}>
         <AppBar aria-label="Header" position="static" color="primary">
           <Toolbar
             variant="dense"
-            style={{ height: 70, display: "flex", justifyContent: "space-between" }}
+            style={{height: 70, display: "flex", justifyContent: "space-between"}}
           >
             <div>
               <Link
                 aria-label="Header_Home"
                 href="/overview"
                 underline="hover"
-                style={{ color: "white", margin: 5 }}
+                style={{color: "white", margin: "5%", fontSize: "1.3em"}}
               >
                 Home
               </Link>
-              {/* <Link href="/frontend" underline="hover" style={{ color: "white", margin: 5 }}>
-                Page 1
+              <Link
+                aria-label="Header_Home"
+                href="/leaderboard/euw/rankedsolo"
+                underline="hover"
+                style={{color: "white", margin: "20%", fontSize: "1.3em"}}
+              >
+                Leaderboard
               </Link>
-              <Link href="/backend" underline="hover" style={{ color: "white", margin: 5 }}>
-                Page 2
-              </Link>
-              <Link href="/devops" underline="hover" style={{ color: "white", margin: 5 }}>
-                Page 3
-              </Link> */}
             </div>
             {displaySearchBar ? <SearchBar styles={searchBarStyles} /> : ""}
           </Toolbar>

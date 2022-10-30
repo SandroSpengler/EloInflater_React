@@ -45,7 +45,7 @@ const SearchBar = (props: {styles: React.CSSProperties}) => {
       setSearchSummonerName("");
       navigate(path + summoner.name, {replace: true});
     } catch (error: any) {
-      console.log(error);
+      setRequestingSummoner(false);
 
       if (!axios.isAxiosError(error)) {
         setDisplayError(true);

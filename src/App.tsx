@@ -5,27 +5,15 @@ import {BrowserRouter, BrowserRouter as Router, Navigate, Route, Routes} from "r
 import {CssBaseline, ThemeProvider, TextField} from "@mui/material";
 import {createTheme, Theme} from "@mui/material/styles";
 
-import {
-  amber,
-  blue,
-  blueGrey,
-  deepOrange,
-  deepPurple,
-  green,
-  grey,
-  indigo,
-  purple,
-} from "@mui/material/colors";
-
 import "./App.css";
 
 import Home from "./Pages/Home";
 import Header from "./Components/Layout/Header";
 import SummonerSummary from "./Pages/SummonerSummary";
-import {ColorPartial} from "@mui/material/styles/createPalette";
+import Leaderboard from "./Pages/Leaderboard";
 
 const primary = "#1D1D42";
-const secondary = "#19857b";
+const secondary = "#373767";
 const background = "#161616";
 const ternary = "#373767";
 const accent = "0A0A2B";
@@ -53,8 +41,21 @@ const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          background: ternary,
+          background: secondary,
           borderRadius: "8px",
+          color: "white",
+        },
+      },
+      defaultProps: {
+        inputProps: {
+          style: {
+            color: "white",
+          },
+        },
+        InputLabelProps: {
+          style: {
+            color: "white",
+          },
         },
       },
     },
@@ -63,6 +64,33 @@ const theme = createTheme({
         root: {
           color: "white",
           fontSize: "1.1em",
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        gutters: {
+          backgroundColor: primary,
+        },
+      },
+    },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          color: "white",
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          color: "white",
+          fontSize: "1em",
+          backgroundColor: secondary,
+          borderRadius: "10px",
+        },
+        iconOutlined: {
+          backgroundColor: ternary,
         },
       },
     },
@@ -89,6 +117,7 @@ export const routes = (): React.ReactElement => {
       <Route path="/" element={<Navigate to="/home" />}></Route>
       <Route path="home" element={<Home />}></Route>
       <Route path="/data/summoner/:region/:summonerName" element={<SummonerSummary />}></Route>
+      <Route path="/leaderboard/:region/:rankmode" element={<Leaderboard />}></Route>
     </Routes>
   );
 };
