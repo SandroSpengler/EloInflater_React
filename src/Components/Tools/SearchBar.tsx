@@ -1,12 +1,12 @@
 import React, {useState} from "react";
-import {useNavigate, useParams} from "react-router";
+import {useNavigate} from "react-router";
 
 import {Alert, Button, CircularProgress, Snackbar, TextField} from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
 
-import {getSummonerByName} from "../../Services/HttpService";
 import axios, {AxiosError} from "axios";
+import {getSummonerByName} from "../../Services/HttpService";
 
 import "./SearchBar.css";
 

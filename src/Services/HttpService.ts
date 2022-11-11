@@ -1,5 +1,4 @@
 import axios, {AxiosError} from "axios";
-import {MatchData} from "../Models/MatchData";
 import {Summoner} from "../Models/Summoner";
 
 // only change by Region

@@ -1,4 +1,4 @@
-import {getByRole, render, screen, waitFor} from "@testing-library/react";
+import {render, screen, waitFor} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import {createMemoryHistory} from "history";
@@ -34,17 +34,17 @@ describe("SummonerSummary Component Tests", () => {
         const matchesText = screen.getByText("Matches checked");
 
         expect(matchesText).toBeDefined();
+
+        const exhaustCount = screen.getByText(summoner.exhaustCount);
+        const exhaustCastedCount = screen.getByText(summoner.exhaustCastCount);
+        const tabisCount = screen.getByText(summoner.tabisCount);
+        const zhonaysCount = screen.getByText(summoner.zhonaysCount);
+
+        expect(exhaustCount).toBeDefined();
+        expect(exhaustCastedCount).toBeDefined();
+        expect(tabisCount).toBeDefined();
+        expect(zhonaysCount).toBeDefined();
       });
-
-      const exhaustCount = screen.getByText(summoner.exhaustCount);
-      const exhaustCastedCount = screen.getByText(summoner.exhaustCastCount);
-      const tabisCount = screen.getByText(summoner.tabisCount);
-      const zhonaysCount = screen.getByText(summoner.zhonaysCount);
-
-      expect(exhaustCount).toBeDefined();
-      expect(exhaustCastedCount).toBeDefined();
-      expect(tabisCount).toBeDefined();
-      expect(zhonaysCount).toBeDefined();
     });
 
     it("Update Summoner-Stats", async () => {

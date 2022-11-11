@@ -1,21 +1,16 @@
-import {BrowserRouter, MemoryRouter, useLocation} from "react-router-dom";
 import {createMemoryHistory} from "history";
+import {MemoryRouter} from "react-router-dom";
 
 import SearchBar from "../../Components/Tools/SearchBar";
 
 // User-Event -> Changes State
 // Fire-Event -> Changes HTML-Elements
-import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import {render, screen, waitFor} from "@testing-library/react";
 
 import userEvent from "@testing-library/user-event";
 
-import {rest} from "msw";
-import {setupServer} from "msw/node";
-import App from "../../App";
 import {startMSWServer, stopMSWServer, summonerBeforeUpdate} from "../../__utlis__/HttpEnpoints";
 import createRouterWithEndpoints from "../../__utlis__/RouterEndpoint";
-import React from "react";
-import Header from "../../Components/Layout/Header";
 
 describe("SerachBar Component Tests", () => {
   beforeAll(() => {

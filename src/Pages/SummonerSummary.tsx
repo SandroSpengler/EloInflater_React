@@ -165,7 +165,7 @@ function SummonerSummary() {
     let elementToShow;
 
     if (summonerIsUpdating) {
-      elementToShow = <CircularProgress color="secondary" />;
+      elementToShow = <CircularProgress color="success" />;
     } else {
       elementToShow = (
         <Button
