@@ -4,11 +4,12 @@
   margin-left: 10%;
   margin-right: 10%;
   padding: 25px 25px 25px 15px;
-  /* background-color: green; */
-  background-color: #1d1d42;
 
-  overflow-y: auto;
-  overflow-x: hidden;
+  background-color: #1d1d42;
+}
+
+.selectInput {
+  width: 1000px;
 }
 
 .Form {

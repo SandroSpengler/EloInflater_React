@@ -13,8 +13,9 @@ import {
 
 import axios, {AxiosError} from "axios";
 import moment from "moment";
-import React, {useEffect, useRef, useState} from "react";
+import React, {ReactElement, useEffect, useRef, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
+import {JsxElement} from "typescript";
 
 import {Summoner} from "../Models/Summoner";
 
@@ -188,8 +189,10 @@ function SummonerSummary() {
 
   /**
    * Displays the SummonerInformation
+   *
+   * @returns The SummonerInformation to render OR undefined
    */
-  const showSummonerInformation = () => {
+  const showSummonerInformation = (): ReactElement | undefined => {
     if (summoner)
       return (
         <Typography component="div" variant="h6" fontSize={14} padding={"3px"}>

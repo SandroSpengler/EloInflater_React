@@ -1,16 +1,16 @@
 import React, {useEffect} from "react";
 
-import {BrowserRouter, BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 
-import {CssBaseline, ThemeProvider, TextField} from "@mui/material";
-import {createTheme, Theme} from "@mui/material/styles";
+import {CssBaseline, ThemeProvider} from "@mui/material";
+import {createTheme} from "@mui/material/styles";
 
 import "./App.css";
 
-import Home from "./Pages/Home";
 import Header from "./Components/Layout/Header";
-import SummonerSummary from "./Pages/SummonerSummary";
+import Home from "./Pages/Home";
 import Leaderboard from "./Pages/Leaderboard";
+import SummonerSummary from "./Pages/SummonerSummary";
 
 const primary = "#1D1D42";
 const secondary = "#373767";
@@ -91,6 +91,24 @@ const theme = createTheme({
         },
         iconOutlined: {
           backgroundColor: ternary,
+        },
+      },
+    },
+    MuiPagination: {
+      styleOverrides: {
+        text: {
+          color: "white",
+        },
+        root: {
+          color: "white",
+        },
+      },
+    },
+    MuiPaginationItem: {
+      styleOverrides: {
+        root: {
+          color: "white",
+          fontSize: ".75em",
         },
       },
     },

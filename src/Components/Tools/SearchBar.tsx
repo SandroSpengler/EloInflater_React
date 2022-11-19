@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router";
 
-import {Alert, Button, CircularProgress, Snackbar, TextField} from "@mui/material";
+import {Alert, Button, CircularProgress, Snackbar, TextField, useMediaQuery} from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -107,10 +107,12 @@ const SearchBar = (props: {styles: React.CSSProperties}) => {
     await validateSummonerAndNavigate();
   };
 
+  // Hide text on small device
   return (
     <div style={{justifyContent: "center", display: "flex", alignItems: "center"}}>
       <TextField
         aria-label="test"
+        // label={useMediaQuery("(min-width:600px)") ? "Summoner Name" : ""}
         label="Summoner Name"
         variant="outlined"
         value={searchSummonerName}
