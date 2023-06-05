@@ -1,5 +1,5 @@
-This is a Frontend for project based on the offical League of Legends API.
+# **Deprecated**
 
-You can search for Summoners and check wether or not they used Exhaust or Ninja Tabis in their games.
+**This Frontend will be replaced by a version written in svelte, please refer to the following github repository: [Eloinflater_Svelte](https://github.com/SandroSpengler/Eloinflater_Svelte)**
 
-All master, grandmaster and challenger players will be checked regularly 
+# **Eloinflater React Frontend**

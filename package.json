@@ -1,64 +1,64 @@
 {
-  "name": "eloinflater",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --watchAll --runInBand",
-    "testCoverage": "react-scripts test --coverage",
-    "eject": "react-scripts eject"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "^5.5.0",
-    "@mui/material": "^5.4.3",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
-    "@types/jest": "^29.2.2",
-    "@types/node": "^18.11.9",
-    "@types/react": "^18.0.25",
-    "@types/react-dom": "^18.0.8",
-    "axios": "^1.1.3",
-    "history": "^5.3.0",
-    "moment": "^2.29.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.2.1",
-    "typescript": "^4.7.4",
-    "web-vitals": "^3.0.4"
-  },
-  "devDependencies": {
-    "@types/react-router-dom": "^5.3.3",
-    "eslint-plugin-react": "^7.29.3",
-    "react-scripts": "5.0.1",
-    "msw": "^0.48.1"
-  },
-  "eslintConfig": {
-    "extends": [
-      "plugin:react/recommended"
-    ]
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!@shotgunjed)/"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "eloinflater",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test --watchAll --runInBand",
+		"testCoverage": "react-scripts test --coverage",
+		"eject": "react-scripts eject"
+	},
+	"dependencies": {
+		"@emotion/react": "^11.8.1",
+		"@emotion/styled": "^11.8.1",
+		"@mui/icons-material": "^5.5.0",
+		"@mui/material": "^5.4.3",
+		"@testing-library/jest-dom": "^5.16.2",
+		"@testing-library/react": "^13.4.0",
+		"@testing-library/user-event": "^14.4.3",
+		"@types/jest": "^29.2.2",
+		"@types/node": "^18.11.9",
+		"@types/react": "^18.0.25",
+		"@types/react-dom": "^18.0.8",
+		"axios": "^1.1.3",
+		"history": "^5.3.0",
+		"moment": "^2.29.1",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-router-dom": "^6.2.1",
+		"typescript": "^4.7.4",
+		"web-vitals": "^3.0.4"
+	},
+	"devDependencies": {
+		"@types/react-router-dom": "^5.3.3",
+		"eslint-plugin-react": "^7.29.3",
+		"react-scripts": "5.0.1",
+		"msw": "^0.48.1"
+	},
+	"eslintConfig": {
+		"extends": [
+			"plugin:react/recommended"
+		]
+	},
+	"jest": {
+		"transform": {
+			"^.+\\.[t|j]sx?$": "babel-jest"
+		},
+		"transformIgnorePatterns": [
+			"node_modules/(?!@shotgunjed)/"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }
